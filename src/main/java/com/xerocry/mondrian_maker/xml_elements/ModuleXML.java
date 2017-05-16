@@ -14,15 +14,19 @@ public class ModuleXML {
 
     private boolean related;
     private boolean crmEntity;
-    private ArrayList<ModuleXML> relatedModules;
+    private ArrayList<String> relatedModules;
 
     public ModuleXML() {
-        fieldXMLList = new ArrayList<>();
-        relatedModules = new ArrayList<>();
+        this.fieldXMLList = new ArrayList<>();
+        this.relatedModules = new ArrayList<>();
     }
 
     public void addNewField(FieldXML field) {
         fieldXMLList.add(field);
+    }
+
+    public void addRelatedModule(String module) {
+        relatedModules.add(module);
     }
 
 

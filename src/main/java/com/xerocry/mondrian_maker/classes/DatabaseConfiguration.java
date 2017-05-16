@@ -6,9 +6,6 @@ import org.jdom2.JDOMException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/**
- * Created by raskia on 5/2/2017.
- */
 public class DatabaseConfiguration {
 
     private static DatabaseConfiguration instance;

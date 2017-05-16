@@ -18,13 +18,15 @@ public class XMLParser {
     private static final String ROOT_BLOCK_ELEMENT = "blocks";
     private static final String ROOT_FIELD_ELEMENT = "fields";
     private static final String ROOT_RELATED_MODULE_ELEMENT = "relatedmodules";
+    private static final String ROOT_RELATED_LIST_ELEMENT = "relatedlists";
 
     private static final String CONFIGURATION_ELEMENT = "configuration";
     private static final String TABLENAME_ELEMENT = "tablename";
     private static final String COLUMNNAME_ELEMENT = "columnname";
     private static final String FIELDNAME_ELEMENT = "fieldname";
     private static final String COLUMTYPE_ELEMENT = "columntype";
-    private static final String SEQUENCE_ELEMENT = "sequence";
+    private static final String UI_TYPE_ELEMENT = "uitype";
+    private static final String RELATED_LIST_ELEMENT = "relatedlist";
     private static final String RELATED_MODULE_ELEMENT = "relatedmodule";
     private static final String MODULE_NAME_ELEMENT = "name";
 
@@ -89,8 +91,25 @@ public class XMLParser {
                         fieldXML.setColumnName(field.getChild(COLUMNNAME_ELEMENT).getValue());
                         fieldXML.setColumnType(field.getChild(COLUMTYPE_ELEMENT).getValue());
                         fieldXML.setFieldName(field.getChild(FIELDNAME_ELEMENT).getValue());
+                        fieldXML.setUiType(field.getChild(UI_TYPE_ELEMENT).getValue());
+                        if (fieldXML.isRelated()) {
+                            Element related = field.getChild(ROOT_RELATED_MODULE_ELEMENT);
+                            fieldXML.setRelatedModule(related.getChild(RELATED_MODULE_ELEMENT).getValue());
+
+                        }
                         moduleXML.addNewField(fieldXML);
                     }
+                }
+            }
+
+            if (childNode.getName().equals(ROOT_RELATED_LIST_ELEMENT)) {
+                List<Element> relList = childNode.getChildren();
+                for (Element relElement : relList) {
+//                    Element listElement = relList.getChild(RELATED_LIST_ELEMENT);
+//                    List<Element> listElements = relElement.getChildren();
+                    moduleXML.addRelatedModule(relElement.getChild(RELATED_MODULE_ELEMENT).getValue());
+//                    for (Element list : listElements) {
+//                    }
                 }
             }
         }

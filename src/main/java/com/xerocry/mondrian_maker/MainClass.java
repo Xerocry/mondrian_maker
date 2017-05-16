@@ -21,15 +21,14 @@ public class MainClass {
         PrintWriter outFilePrintWriter = new PrintWriter(new File("output" + outputFile));
         try {
             ArrayList<String> scheme = DatabaseConfiguration.getInstance().generateTest();
-//            if (test.size() == 0) {
-//                throw new TestException("Test has 0 non-setup steps");
+//            if (scheme.size() == 0) {
+//                throw new Exception("Dump has 0 modules");
 //            }
             for (String s : scheme) {
                 outFilePrintWriter.println(s);
             }
         } finally {
-//            Directories.deleteInstance();
-//            TestConfiguration.deleteInstance();
+            Directories.deleteInstance();
         }
     }
 
