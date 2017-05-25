@@ -1,0 +1,1344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="configurations" type="configurationsType">
+    <xs:annotation>
+      <xs:documentation>Created by SalesPlatform Configuration Designer 1.2.0</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="reportsType">
+    <xs:sequence>
+      <xs:element type="reportType" name="report" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="groupType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="groupcondition"/>
+      <xs:element type="rulesType" name="rules"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="reportfolderType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="name"/>
+      <xs:element type="xs:string" name="description"/>
+      <xs:element type="xs:string" name="state"/>
+      <xs:element type="reportsType" name="reports"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="eventsType">
+    <xs:sequence>
+      <xs:element type="eventType" name="event" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="relatedmodulesType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="relatedmodule" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="rulesType">
+    <xs:sequence>
+      <xs:element type="ruleType" name="rule" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="entityidentifierType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="entityidfield"/>
+      <xs:element type="xs:string" name="entityidcolumn"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="picklistvaluesType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="picklistvalue" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="modstringType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="original"/>
+      <xs:element type="xs:string" name="translated"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="configurationsType">
+    <xs:sequence>
+      <xs:element type="configurationType" name="configuration"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="reportType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="name"/>
+      <xs:element type="xs:string" name="description"/>
+      <xs:element type="xs:string" name="primarymodule"/>
+      <xs:element name="type">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="tabular"/>
+            <xs:enumeration value="summary"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="xs:string" name="state"/>
+      <xs:element type="xs:string" name="sharingtype"/>
+      <xs:element type="secondarymodulesType" name="secondarymodules" minOccurs="0"/>
+      <xs:element type="xs:string" name="datecolumnname" minOccurs="0"/>
+      <xs:element name="datefilter" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="lastmonth"/>
+            <xs:enumeration value="thismonth"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="startdate" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="2005-05-01"/>
+            <xs:enumeration value="2005-06-01"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="enddate" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="2005-05-31"/>
+            <xs:enumeration value="2005-06-30"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="fieldsType" name="fields"/>
+      <xs:element type="groupsType" name="groups" minOccurs="0"/>
+      <xs:element type="sortcolsType" name="sortcols" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="groupsType">
+    <xs:sequence>
+      <xs:element type="groupType" name="group"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="taskType">
+    <xs:sequence>
+      <xs:element name="type">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="VTEntityMethodTask"/>
+            <xs:enumeration value="VTEmailTask"/>
+            <xs:enumeration value="VTUpdateFieldsTask"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="xs:string" name="summary"/>
+      <xs:element type="xs:string" name="object"/>
+      <xs:element type="methodType" name="method" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="cronType">
+    <xs:sequence>
+      <xs:element name="name">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="RecurringInvoice"/>
+            <xs:enumeration value="SendReminder"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="handler">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="cron/modules/SalesOrder/RecurringInvoice.service"/>
+            <xs:enumeration value="cron/SendReminder.service"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="frequency">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="43200"/>
+            <xs:enumeration value="900"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="xs:string" name="status"/>
+      <xs:element name="sequence">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="2"/>
+            <xs:enumeration value="3"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="sourcecode">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="&lt;?php
+/*********************************************************************************
+  ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
+   * (&quot;License&quot;); You may not use this file except in compliance with the License
+   * The Original Code is:  vtiger CRM Open Source
+   * The Initial Developer of the Original Code is vtiger.
+   * Portions created by vtiger are Copyright (C) vtiger.
+   * All Rights Reserved.
+  *
+ ********************************************************************************/
+require_once('include/utils/utils.php');
+require_once('include/logging.php');
+
+// Get the list of Invoice for which Recurring is enabled.
+
+global $adb, $log;
+$log =&amp; LoggerManager::getLogger('RecurringInvoice');
+$log->debug(&quot;invoked RecurringInvoice&quot;);
+
+$sql=&quot;SELECT vtiger_salesorder.salesorderid, recurring_frequency, start_period, end_period, last_recurring_date,
+		 payment_duration, invoice_status FROM vtiger_salesorder
+		 INNER JOIN vtiger_crmentity ON vtiger_salesorder.salesorderid = vtiger_crmentity.crmid AND vtiger_crmentity.deleted = 0
+		 INNER JOIN vtiger_invoice_recurring_info ON vtiger_salesorder.salesorderid = vtiger_invoice_recurring_info.salesorderid
+		 WHERE DATE_FORMAT(start_period,'%Y-%m-%d') &lt;= '&quot;.date('Y-m-d').&quot;' AND DATE_FORMAT(end_period,'%Y-%m-%d') >= '&quot;.date('Y-m-d').&quot;'&quot;;
+$result = $adb->pquery($sql, array());
+$no_of_salesorder = $adb->num_rows($result);
+
+for($i=0; $i&lt;$no_of_salesorder;$i++) {
+	$salesorder_id = $adb->query_result($result, $i,'salesorderid');
+	$start_period = $adb->query_result($result, $i,'start_period');
+	$end_period = $adb->query_result($result, $i,'end_period');
+	$last_recurring_date = $adb->query_result($result, $i,'last_recurring_date');
+	$recurring_frequency = $adb->query_result($result, $i,'recurring_frequency');
+
+	if ($last_recurring_date == NULL  || $last_recurring_date == '' || $last_recurring_date == '0000-00-00') {
+		$last_recurring_date = $start_period;
+	}
+    $currentDate = date('Y-m-d');
+    if(strtotime($last_recurring_date) &lt; strtotime($currentDate)){
+        $last_recurring_date = $currentDate;
+    }
+	$currentRecurringDate = $last_recurring_date;
+
+	if(strtotime($currentRecurringDate) > strtotime($end_period)) {
+		continue;
+	}
+
+	switch(strtolower($recurring_frequency)) {
+		case 'daily'	:	$period = '+1 day';		break;
+		case 'weekly'	:	$period = '+1 week';	break;
+		case 'monthly'	:	$period = '+1 month';	break;
+		case 'quarterly':	$period = '+3 month';	break;
+		case 'yearly'	:	$period = '+1 year';	break;
+		default			:	$period = '';
+	}
+
+	if (strtotime($currentRecurringDate) &lt;= strtotime($currentDate)) {
+		list($y, $m, $d) = explode('-', $last_recurring_date);
+		$nextRecurringDate = date('Y-m-d', strtotime($period, mktime(0, 0, 0, $m, $d, $y)));
+	} else {
+		$nextRecurringDate = $currentRecurringDate;
+	}
+    if(strtotime($currentRecurringDate) == strtotime($currentDate)) {
+		createInvoice($salesorder_id);
+		
+	}
+    if(strtotime($nextRecurringDate) != strtotime($last_recurring_date)){
+        $adb->pquery('UPDATE vtiger_invoice_recurring_info SET last_recurring_date = ? WHERE salesorderid = ?', array($nextRecurringDate, $salesorder_id));
+    }
+}
+
+/* Function to create a new Invoice using the given Sales Order id */
+function createInvoice($salesorder_id) {
+	require_once('include/utils/utils.php');
+	require_once('modules/SalesOrder/SalesOrder.php');
+	require_once('modules/Invoice/Invoice.php');
+	require_once('modules/Users/Users.php');
+
+	global $log, $adb;
+	global $current_user;
+
+	// Payment duration in days
+	$payment_duration_values = Array(
+        'net 01 day' => '1',
+        'net 05 days' => '5',
+        'net 07 days' => '7',
+        'net 10 days' => '10',
+        'net 15 days' => '15',
+		'net 30 days' => '30',
+		'net 45 days' => '45',
+		'net 60 days' => '60'
+	);
+
+	if(!$current_user) {
+		$current_user = Users::getActiveAdminUser();
+	}
+	$so_focus = new SalesOrder();
+	$so_focus->id = $salesorder_id;
+	$so_focus->retrieve_entity_info($salesorder_id,&quot;SalesOrder&quot;);
+	foreach($so_focus->column_fields as $fieldname=>$value) {
+		$so_focus->column_fields[$fieldname] = decode_html($value);
+	}
+
+	$focus = new Invoice();
+	// This will only fill in the basic columns from SO to Invoice and also Update the SO id in new Invoice
+	$focus = getConvertSoToInvoice($focus,$so_focus,$salesorder_id);
+    
+	// Pick up the Payment due date based on the Configuration in SO
+	$payment_duration = $so_focus->column_fields['payment_duration'];
+	$due_duration = $payment_duration_values[trim(strtolower($payment_duration))];
+	$durationinsec = mktime(0,0,0,date('m'),date('d')+$due_duration,date('Y'));
+
+	// Cleanup focus object, to duplicate the Invoice.
+	$focus->id = '';
+	$focus->mode = '';
+	$focus->column_fields['invoicestatus'] = $so_focus->column_fields['invoicestatus'];
+	$focus->column_fields['invoicedate'] = date('Y-m-d');
+	$focus->column_fields['duedate'] = date('Y-m-d', $durationinsec);
+
+	// Additional SO fields to copy -> Invoice field name mapped to equivalent SO field name
+	$invoice_so_fields = Array (
+		'txtAdjustment' => 'txtAdjustment',
+		'hdnSubTotal' => 'hdnSubTotal',
+		'hdnGrandTotal' => 'hdnGrandTotal',
+		'hdnTaxType' => 'hdnTaxType',
+		'hdnDiscountPercent' => 'hdnDiscountPercent',
+		'hdnDiscountAmount' => 'hdnDiscountAmount',
+		'hdnS_H_Amount' => 'hdnS_H_Amount',
+		'assigned_user_id' => 'assigned_user_id',
+		'currency_id' => 'currency_id',
+		'conversion_rate' => 'conversion_rate',
+                // SalesPlatform.ru begin: Added company to recurring invoices 
+                'spcompany' => 'spcompany', 
+                // SalesPlatform.ru end 
+	);
+	foreach($invoice_so_fields as $invoice_field => $so_field) {
+		$focus->column_fields[$invoice_field] = $so_focus->column_fields[$so_field];
+	}
+	$focus->_salesorderid = $salesorder_id;
+	$focus->_recurring_mode = 'recurringinvoice_from_so';
+	$focus->save(&quot;Invoice&quot;);
+}
+
+
+
+?>
+"/>
+            <xs:enumeration value="&lt;?php
+////////////////////////////////////////////////////
+// PHPMailer - PHP email class
+//
+// Class for sending email using either
+// sendmail, PHP mail(), or SMTP.  Methods are
+// based upon the standard AspEmail(tm) classes.
+//
+// Copyright (C) 2001 - 2003  Brent R. Matzelle
+//
+// License: LGPL, see LICENSE
+////////////////////////////////////////////////////
+
+/**
+ * PHPMailer - PHP email transport class
+ * @package PHPMailer
+ * @author Brent R. Matzelle
+ * @copyright 2001 - 2003 Brent R. Matzelle
+ */
+
+
+//file modified by richie
+
+require_once('include/utils/utils.php');
+require_once(&quot;modules/Emails/class.phpmailer.php&quot;);
+require_once(&quot;modules/Emails/mail.php&quot;);
+require_once('include/logging.php');
+require_once(&quot;config.php&quot;);
+
+// SalesPlatform.ru begin current_user global var fix
+global $current_user;
+global $current_language;
+global $default_language;
+// SalesPlatform.ru end
+$current_user = Users::getActiveAdminUser();
+// Set the default sender email id
+global $HELPDESK_SUPPORT_EMAIL_ID;
+$from = $HELPDESK_SUPPORT_EMAIL_ID;
+if(empty($from)) {
+	// default configuration is empty?
+	$from = &quot;reminders@localserver.com&quot;;
+}
+
+// Get the list of activity for which reminder needs to be sent
+
+global $adb;
+global $log;
+$log =&amp; LoggerManager::getLogger('SendReminder');
+$log->debug(&quot; invoked SendReminder &quot;);
+
+// retrieve the translated strings.
+if(empty($current_language))
+    // SalesPlatform.ru begin current_language global var fix
+	$current_language = $default_language;
+	//$current_language = 'en_us';
+    // SalesPlatform.ru end
+$app_strings = return_application_language($current_language);
+
+//modified query for recurring events -Jag
+$query=&quot;select vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_seactivityrel.crmid as setype,vtiger_activity.*,vtiger_activity_reminder.reminder_time,vtiger_activity_reminder.reminder_sent,vtiger_activity_reminder.recurringid,vtiger_recurringevents.recurringdate from vtiger_activity inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_activity.activityid inner join vtiger_activity_reminder on vtiger_activity.activityid=vtiger_activity_reminder.activity_id left outer join vtiger_recurringevents on vtiger_activity.activityid=vtiger_recurringevents.activityid left outer join vtiger_seactivityrel on vtiger_seactivityrel.activityid = vtiger_activity.activityid where DATE_FORMAT(vtiger_activity.date_start,'%Y-%m-%d, %H:%i:%s') >= '&quot;.date('Y-m-d').&quot;' and vtiger_crmentity.crmid != 0 and vtiger_activity.eventstatus = 'Planned' and vtiger_activity_reminder.reminder_sent = 0 group by vtiger_activity.activityid,vtiger_recurringevents.recurringid&quot;;
+$result = $adb->pquery($query, array());
+
+if($adb->num_rows($result) >= 1)
+{
+	//To fetch reminder frequency from cron tasks
+	$reminderFrequencyQuery = 'SELECT frequency FROM vtiger_cron_task WHERE name = &quot;SendReminder&quot; AND handler_file = &quot;cron/SendReminder.service&quot;';
+	$reminderResult = $adb->pquery($reminderFrequencyQuery, array());
+	$reminderFrequency = $adb->query_result($reminderResult,0,'frequency');
+
+	while($result_set = $adb->fetch_array($result))
+	{
+		$date_start = $result_set['date_start'];
+		$time_start = $result_set['time_start'];
+		$reminder_time = $result_set['reminder_time']*60;
+		$date = new DateTimeField( null );
+        $userFormatedString = $date->getDisplayDate();
+        $timeFormatedString = $date->getDisplayTime();
+        $dBFomatedDate = DateTimeField::convertToDBFormat($userFormatedString);
+		$curr_time = strtotime($dBFomatedDate.&quot; &quot;. $timeFormatedString);
+		$activity_id = $result_set['activityid'];
+		$activitymode = ($result_set['activitytype'] == &quot;Task&quot;)?&quot;Task&quot;:&quot;Events&quot;;
+		$parent_type = $result_set['setype'];
+		$activity_sub = $result_set['subject'];
+		$to_addr='';
+
+		if($parent_type!='')
+		$parent_content = getParentInfo($parent_type).&quot;\n&quot;;
+		else
+		$parent_content = &quot;&quot;;
+		//code included for recurring events by jaguar starts
+		$recur_id = $result_set['recurringid'];
+		$current_date=date('Y-m-d');
+		if($recur_id == 0)
+		{
+			$date_start = $result_set['date_start'];
+		}
+		else
+		{
+			$date_start = $result_set['recurringdate'];
+		}
+		//code included for recurring events by jaguar ends
+		$date = new DateTimeField(&quot;$date_start $time_start&quot;);
+        $userFormatedString = $date->getDisplayDate();
+        $timeFormatedString = $date->getDisplayTime();
+        $dBFomatedDate = DateTimeField::convertToDBFormat($userFormatedString);
+		$activity_time = strtotime($dBFomatedDate.' '.$timeFormatedString);
+		$differenceOfActivityTimeAndCurrentTime = ($activity_time - $curr_time);
+		if (($differenceOfActivityTimeAndCurrentTime > 0) &amp;&amp; (($differenceOfActivityTimeAndCurrentTime &lt;= $reminder_time) || ($differenceOfActivityTimeAndCurrentTime &lt;= $reminderFrequency)))
+		{
+			$log->debug(&quot; InSide  REMINDER&quot;);
+			$query_user=&quot;SELECT vtiger_users.email1,vtiger_salesmanactivityrel.smid FROM vtiger_salesmanactivityrel inner join vtiger_users on vtiger_users.id=vtiger_salesmanactivityrel.smid where vtiger_salesmanactivityrel.activityid =? and vtiger_users.deleted=0&quot;;
+			$user_result = $adb->pquery($query_user, array($activity_id));
+			$invitedUsersList = array();
+			if($adb->num_rows($user_result)>=1)
+			{
+				while($user_result_row = $adb->fetch_array($user_result))
+				{
+					if($user_result_row['email1']!='' || $user_result_row['email1'] !=NULL)
+					{
+						$to_addr[] = $user_result_row['email1'];
+					}
+					$invitedUsersList[] = $user_result_row['smid'];
+				}
+			}
+
+			$ownerId = $result_set['smownerid'];
+			if (!in_array($ownerId, $invitedUsersList)) {
+				$ownerId = $invitedUsersList[0];
+			}
+			$ownerFocus = CRMEntity::getInstance('Users');
+			$ownerFocus->retrieve_entity_info($ownerId, 'Users');
+			$ownerTimeZone = getTranslatedString($ownerFocus->column_fields['time_zone'], 'Users');
+
+			$dateTime = new DateTimeField($result_set['date_start'] .' '. $result_set['time_start']);
+			$dateTimeInOwnerFormat = $dateTime->getDisplayDateTimeValue($ownerFocus);
+
+			// Retriving the Subject and message from reminder table
+			$sql = &quot;select active,notificationsubject,notificationbody from vtiger_notificationscheduler where schedulednotificationid=8&quot;;
+			$result_main = $adb->pquery($sql, array());
+
+			$subject = $app_strings['Reminder']. $result_set['activitytype'] . &quot; @ $dateTimeInOwnerFormat ] ($ownerTimeZone)&quot;.
+						$adb->query_result($result_main,0,'notificationsubject');
+
+			//Set the mail body/contents here
+			$contents = nl2br($adb->query_result($result_main,0,'notificationbody')) .&quot;\n\n &quot;.
+							$app_strings['Subject'].&quot; : &quot;.$activity_sub.&quot;\n &quot;. $parent_content .&quot; &quot;.
+							$app_strings['Date &amp; Time'].&quot; : $dateTimeInOwnerFormat ($ownerTimeZone)\n\n &quot;.
+							$app_strings['Visit_Link'].&quot; &lt;a href='&quot;.$site_URL.&quot;/index.php?view=Detail&amp;module=Calendar&amp;record=&quot;.$activity_id.&quot;'>&quot;.$app_strings['Click here'].&quot;&lt;/a>&quot;;
+			if(count($to_addr) >=1)
+			{
+				send_email($to_addr,$from,$subject,$contents,$mail_server,$mail_server_username,$mail_server_password);
+				$upd_query = &quot;UPDATE vtiger_activity_reminder SET reminder_sent=1 where activity_id=?&quot;;
+				$upd_params = array($activity_id);
+
+				if($recur_id!=0)
+				{
+					$upd_query.=&quot; and recurringid =?&quot;;
+					array_push($upd_params, $recur_id);
+				}
+
+				$adb->pquery($upd_query, $upd_params);
+
+			}
+		}
+	}
+}
+
+/**
+ This function is used to assign parameters to the mail object and send it.
+ It takes the following as parameters.
+	$to as string - to address
+	$from as string - from address
+	$subject as string - subject if the mail
+	$contents as text - content of the mail
+	$mail_server as string - sendmail server name
+	$mail_server_username as string - sendmail server username
+	$mail_server_password as string - sendmail server password
+
+*/
+function send_email($to,$from,$subject,$contents,$mail_server,$mail_server_username,$mail_server_password)
+{
+	global $adb;
+	 global $log;
+        $log->info(&quot;This is send_mail function in SendReminder.php(vtiger home).&quot;);
+	global $root_directory;
+
+	$mail = new PHPMailer();
+
+
+	$mail->Subject = $subject;
+	$mail->Body    = nl2br($contents);//&quot;This is the HTML message body &lt;b>in bold!&lt;/b>&quot;;
+
+
+	$mail->IsSMTP();                                      // set mailer to use SMTP
+
+		$mailserverresult=$adb->pquery(&quot;select * from vtiger_systems where server_type='email'&quot;, array());
+		$mail_server = $adb->query_result($mailserverresult,0,'server');
+		$mail_server_username = $adb->query_result($mailserverresult,0,'server_username');
+		$mail_server_password = $adb->query_result($mailserverresult,0,'server_password');
+		$smtp_auth = $adb->query_result($mailserverresult,0,'smtp_auth');
+
+		$_REQUEST['server']=$mail_server;
+		$log->info(&quot;Mail Server Details => '&quot;.$mail_server.&quot;','&quot;.$mail_server_username.&quot;','&quot;.$mail_server_password.&quot;'&quot;);
+
+
+	$mail->Host = $mail_server;			// specify main and backup server
+	if($smtp_auth == 'true' || $smtp_auth == '1')
+		$mail->SMTPAuth = true;
+	else
+		$mail->SMTPAuth = false;
+	$mail->Username = $mail_server_username ;	// SMTP username
+	$mail->Password = $mail_server_password ;	// SMTP password
+	$mail->From = $from;
+	$mail->FromName = $initialfrom;
+	$log->info(&quot;Mail sending process : From Name &amp; email id => '&quot;.$initialfrom.&quot;','&quot;.$from.&quot;'&quot;);
+	foreach($to as $pos=>$addr)
+	{
+		$mail->AddAddress($addr);                  // name is optional
+		$log->info(&quot;Mail sending process : To Email id = '&quot;.$addr.&quot;' (set in the mail object)&quot;);
+
+	}
+	$mail->WordWrap = 50;                                 // set word wrap to 50 characters
+
+	$mail->IsHTML(true);                                  // set email format to HTML
+
+	$mail->AltBody = &quot;This is the body in plain text for non-HTML mail clients&quot;;
+
+	$flag = MailSend($mail);
+	$log->info(&quot;After executing the mail->Send() function.&quot;);
+}
+
+/**
+ This function is used to get the Parent type and its Name
+ It takes the input integer - crmid and returns the parent type and its name as string.
+*/
+function getParentInfo($value)
+{
+	global $adb;
+ 	$parent_module = getSalesEntityType($value);
+	if($parent_module == &quot;Leads&quot;)
+	{
+		$sql = &quot;select * from vtiger_leaddetails where leadid=?&quot;;
+		$result = $adb->pquery($sql, array($value));
+		$first_name = $adb->query_result($result,0,&quot;firstname&quot;);
+		$last_name = $adb->query_result($result,0,&quot;lastname&quot;);
+
+		$parent_name = $last_name.' '.$first_name;
+	}
+	elseif($parent_module == &quot;Accounts&quot;)
+	{
+		$sql = &quot;select * from  vtiger_account where accountid=?&quot;;
+		$result = $adb->pquery($sql, array($value));
+		$account_name = $adb->query_result($result,0,&quot;accountname&quot;);
+
+		$parent_name =$account_name;
+	}
+	elseif($parent_module == &quot;Potentials&quot;)
+	{
+		$sql = &quot;select * from  vtiger_potential where potentialid=?&quot;;
+		$result = $adb->pquery($sql, array($value));
+		$potentialname = $adb->query_result($result,0,&quot;potentialname&quot;);
+
+		$parent_name =$potentialname;
+	}
+	  return $parent_module .&quot; : &quot;.$parent_name;
+}
+?>"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="xs:string" name="language"/>
+      <xs:element name="description">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="Рекомендуемая частота обновления для RecurringInvoice - 12 часов."/>
+            <xs:enumeration value="Рекомендуемая частота обновления для SendReminder - 15 минут."/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="methodType">
+    <xs:sequence>
+      <xs:element name="name">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="processCodeUnit"/>
+            <xs:enumeration value="processUsageUnit"/>
+            <xs:enumeration value="UpdateInventory"/>
+            <xs:enumeration value="SendPortalLoginDetails"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="sourcecode" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="
+/*+**********************************************************************************
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.1
+ * (&quot;License&quot;); You may not use this file except in compliance with the License
+ * The Original Code is: SalesPlatform Ltd
+ * The Initial Developer of the Original Code is SalesPlatform Ltd.
+ * All Rights Reserved.
+ * If you have any questions or comments, please email: devel@salesplatform.ru
+ ************************************************************************************/
+require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
+
+function processCodeUnit($ws_entity) {
+    global $adb;
+    $data = array(
+        &quot;Products&quot; => array(&quot;tablename&quot; => &quot;vtiger_products&quot;,
+                            &quot;id&quot; => &quot;productid&quot;,
+                            &quot;column&quot; => &quot;usageunit&quot;),
+        &quot;Services&quot; => array(&quot;tablename&quot; => 'vtiger_service',
+                            &quot;id&quot; => &quot;serviceid&quot;,
+                            &quot;column&quot; => &quot;service_usageunit&quot;),
+        );
+    $ws_id = $ws_entity->getId();
+    $module = $ws_entity->getModuleName();
+    if (empty($ws_id) || empty($module)) {
+        return;
+    }
+    $crmid = vtws_getCRMEntityId($ws_id);
+    if ($crmid &lt;= 0) {
+        return;
+    }
+    $entity = CRMEntity::getInstance($module);
+    $entity->id = $crmid;
+    $entity->retrieve_entity_info($crmid, $module);
+    $units_res = $adb->pquery(&quot;select unit_code from sp_units &quot;.
+                                &quot;where usageunit = ?&quot;,
+                                array($entity->column_fields[$data[$module]['column']]));
+    if ($units_res) {
+        if ($adb->num_rows($units_res) > 0) {
+            $unit_code = $adb->query_result($units_res, 0, &quot;unit_code&quot;);
+            $adb->pquery(&quot;update &quot;.$data[$module]['tablename'].&quot; &quot;.
+                            &quot;set unit_code = ? &quot;.
+                            &quot;where &quot;.$data[$module]['id'].&quot; = ?&quot;, 
+            array($unit_code, $crmid));
+        }
+    }  
+}
+
+
+"/>
+            <xs:enumeration value="
+/*+**********************************************************************************
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.1
+ * (&quot;License&quot;); You may not use this file except in compliance with the License
+ * The Original Code is: SalesPlatform Ltd
+ * The Initial Developer of the Original Code is SalesPlatform Ltd.
+ * All Rights Reserved.
+ * If you have any questions or comments, please email: devel@salesplatform.ru
+ ************************************************************************************/
+require_once('include/utils/utils.php');
+
+function processUsageUnit() {
+    global $adb;
+    $sql = $adb->pquery(&quot;select * from sp_units&quot;, array());
+    if ($sql) {
+        $rows = $adb->num_rows($sql);
+        if ($rows > 0) {
+            $picklistid_result = $adb->pquery(&quot;select picklistid from vtiger_picklist &quot;.
+                                                &quot;where name = 'usageunit'&quot;, array());
+            if ($picklistid_result) {
+                if ($adb->num_rows($picklistid_result) > 0) {
+                    $picklistid = $adb->query_result($picklistid_result, 0, &quot;picklistid&quot;);
+                    
+                    $data_products = getUsageUnitData('vtiger_usageunit', 'usageunit');
+                    $data_service = getUsageUnitData('vtiger_service_usageunit', 'service_usageunit');
+                    $valueid_result = $adb->pquery(&quot;select max(id)+1 as id from vtiger_picklistvalues_seq&quot;, array());
+                     
+                    $picklistvalueid = $adb->query_result($valueid_result, 0, &quot;id&quot;);
+                    
+                    // In vtiger600 tables vtiger_usageunit and vtiger_service_usageunit have 5 field, so need new variable 
+                    $sortorderid_result = $adb->pquery(&quot;select max(sortorderid)+1 as sortorderid from vtiger_usageunit&quot;, array());
+                    $sortorderid = $adb->query_result($sortorderid_result, 0, &quot;sortorderid&quot;);
+   
+                    $role_result = $adb->pquery(&quot;select roleid from vtiger_role&quot;, array());
+                    if ($role_result) {
+                        $numrow = $adb->num_rows($role_result);
+                        if ($numrow > 0) {
+                            $id_pr = $adb->getUniqueID('vtiger_usageunit');
+                            $id_srv = $adb->getUniqueID('vtiger_service_usageunit');
+                            for ($i=0; $i&lt;$rows; $i++) {
+                                $usageunit = $adb->query_result($sql, $i, &quot;usageunit&quot;);
+                                if (!in_array($usageunit, $data_products)) {
+                                    $adb->pquery(&quot;insert into vtiger_usageunit values(?,?,?,?,?)&quot;,
+                                                    array($id_pr, $usageunit, 1, $picklistvalueid, $sortorderid));
+                                    $id_pr++;
+                                }
+                                if (!in_array($usageunit, $data_service)) {
+                                    $adb->pquery(&quot;insert into vtiger_service_usageunit values(?,?,?,?,?)&quot;,
+                                                array($id_srv, $usageunit, 1, $picklistvalueid, $sortorderid));
+                                    $id_srv++;
+                                }
+                                if (!in_array($usageunit, $data_products) || !in_array($usageunit, $data_service)) {                  
+                                    for($k=0; $k&lt;$numrow; $k++) {
+                                        $roleid = $adb->query_result($role_result, $k,'roleid');
+                                        $sortid_result = $adb->pquery(&quot;select max(sortid)+1 as sortid from vtiger_role2picklist where picklistid = ? and roleid = ?&quot;, array($picklistid, $roleid));
+                                        $sortid = $adb->query_result($sortid_result, 0, &quot;sortid&quot;);
+                                        $adb->pquery(&quot;insert into vtiger_role2picklist values(?,?,?,?)&quot;,
+                                                        array($roleid, $picklistvalueid, $picklistid, $sortid));
+                                    }
+                                    $picklistvalueid++;
+                                }
+                            }
+                            $adb->pquery(&quot;update vtiger_usageunit_seq SET id = ?&quot;, array(--$id_pr));
+                            $adb->pquery(&quot;update vtiger_service_usageunit_seq SET id = ?&quot;, array(--$id_srv));
+                            $adb->pquery(&quot;update vtiger_picklistvalues_seq SET id = ?&quot;, array(--$picklistvalueid));
+                        } 
+                    }
+                }
+            }
+        }
+    }
+}
+
+function getUsageUnitData($tablename, $column) {
+    global $adb;
+    $unit_data = array();
+    $i = 0;
+    $unit_result = $adb->pquery(&quot;select &quot;.$column.&quot; from &quot;.$tablename.&quot;&quot;, array());
+    while ($resultrow = $adb->fetch_array($unit_result)) {
+        $unit_data[$i] = $resultrow[$column];
+        $i++;
+    }
+    return $unit_data;
+}
+
+"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="xs:string" name="language" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ruleType">
+    <xs:sequence>
+      <xs:element name="name" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="accountid"/>
+            <xs:enumeration value="potentialname"/>
+            <xs:enumeration value="sales_stage"/>
+            <xs:enumeration value="status"/>
+            <xs:enumeration value="quotestage"/>
+            <xs:enumeration value="access_count"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="table" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="vtiger_contactdetails"/>
+            <xs:enumeration value="vtiger_potential"/>
+            <xs:enumeration value="vtiger_troubletickets"/>
+            <xs:enumeration value="vtiger_quotes"/>
+            <xs:enumeration value="vtiger_email_track"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="columnindex" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="0"/>
+            <xs:enumeration value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="comparator">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="n"/>
+            <xs:enumeration value="e"/>
+            <xs:enumeration value="EQUALS"/>
+            <xs:enumeration value="NOT_EQUALS"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="index" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="0"/>
+            <xs:enumeration value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="xs:string" name="value"/>
+      <xs:element type="xs:string" name="columncondition"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="blocksType">
+    <xs:sequence>
+      <xs:element type="blockType" name="block" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="workflowType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="summary"/>
+      <xs:element type="xs:string" name="conditions"/>
+      <xs:element name="executioncondition">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="3"/>
+            <xs:enumeration value="2"/>
+            <xs:enumeration value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="tasksType" name="tasks" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="configurationType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="uid"/>
+      <xs:element type="xs:string" name="name"/>
+      <xs:element type="xs:string" name="description"/>
+      <xs:element type="xs:string" name="language"/>
+      <xs:element type="translationType" name="translation"/>
+      <xs:element type="homepanelsType" name="homepanels"/>
+      <xs:element type="reportfoldersType" name="reportfolders"/>
+      <xs:element type="modulesType" name="modules"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="homepanelsType">
+    <xs:sequence>
+      <xs:element type="homepanelType" name="homepanel" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="sortcolType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="index"/>
+      <xs:element name="name">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="leadsource"/>
+            <xs:enumeration value="leadstatus"/>
+            <xs:enumeration value="sales_stage"/>
+            <xs:enumeration value="priority"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="table">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="vtiger_leaddetails"/>
+            <xs:enumeration value="vtiger_potential"/>
+            <xs:enumeration value="vtiger_troubletickets"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="xs:string" name="sortorder"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="relatedlistsType">
+    <xs:sequence>
+      <xs:element type="relatedlistType" name="relatedlist" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="secondarymodulesType">
+    <xs:sequence>
+      <xs:element name="secondarymodule">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="Accounts"/>
+            <xs:enumeration value="Potentials"/>
+            <xs:enumeration value="Products"/>
+            <xs:enumeration value="Contacts"/>
+            <xs:enumeration value="Emails"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="homepanelType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="stufftitle"/>
+      <xs:element type="xs:string" name="contents"/>
+      <xs:element type="xs:string" name="hometype"/>
+      <xs:element name="visible">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="1"/>
+            <xs:enumeration value="0"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="xs:string" name="sequence"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="moduleType">
+    <xs:choice maxOccurs="unbounded" minOccurs="0">
+      <xs:element name="exporttime">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="2015-12-09 17:35:39"/>
+            <xs:enumeration value="2015-12-09 17:35:40"/>
+            <xs:enumeration value="2015-12-09 17:35:41"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="xs:string" name="name"/>
+      <xs:element type="xs:string" name="label"/>
+      <xs:element name="parent">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="Inventory"/>
+            <xs:enumeration value="Tools"/>
+            <xs:enumeration value="Support"/>
+            <xs:enumeration value="Sales"/>
+            <xs:enumeration value="Marketing"/>
+            <xs:enumeration value="My Home Page"/>
+            <xs:enumeration value=""/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="xs:string" name="state"/>
+      <xs:element name="sequence">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="-1"/>
+            <xs:enumeration value="3"/>
+            <xs:enumeration value="4"/>
+            <xs:enumeration value="5"/>
+            <xs:enumeration value="6"/>
+            <xs:enumeration value="7"/>
+            <xs:enumeration value="8"/>
+            <xs:enumeration value="9"/>
+            <xs:enumeration value="10"/>
+            <xs:enumeration value="11"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="xs:string" name="entitynum"/>
+      <xs:element type="xs:string" name="version"/>
+      <xs:element type="translationType" name="translation"/>
+      <xs:element type="workflowsType" name="workflows"/>
+      <xs:element type="blocksType" name="blocks"/>
+      <xs:element type="relatedlistsType" name="relatedlists"/>
+      <xs:element type="customviewsType" name="customviews"/>
+      <xs:element type="eventsType" name="events"/>
+      <xs:element type="customlinksType" name="customlinks"/>
+      <xs:element type="cronsType" name="crons"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:complexType name="actionsType">
+    <xs:sequence>
+      <xs:element name="action" maxOccurs="unbounded" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="add"/>
+            <xs:enumeration value="select"/>
+            <xs:enumeration value=" "/>
+            <xs:enumeration value="bulkmail"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="blockType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="label"/>
+      <xs:element name="sequence">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="1"/>
+            <xs:enumeration value="2"/>
+            <xs:enumeration value="3"/>
+            <xs:enumeration value="4"/>
+            <xs:enumeration value="5"/>
+            <xs:enumeration value="6"/>
+            <xs:enumeration value="7"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="fieldsType" name="fields" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="customviewType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="viewname"/>
+      <xs:element name="setdefault">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="true"/>
+            <xs:enumeration value="false"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="setmetrics">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="false"/>
+            <xs:enumeration value="true"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="fieldsType" name="fields"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="eventType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="condition"/>
+      <xs:element name="eventname">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="vtiger.entity.beforesave"/>
+            <xs:enumeration value="vtiger.entity.aftersave"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="classname">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="ServiceContractsHandler"/>
+            <xs:enumeration value="InvoiceHandler"/>
+            <xs:enumeration value="PurchaseOrderHandler"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="filename">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="modules/ServiceContracts/ServiceContractsHandler.php"/>
+            <xs:enumeration value="modules/Invoice/InvoiceHandler.php"/>
+            <xs:enumeration value="modules/PurchaseOrder/PurchaseOrderHandler.php"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="translationType">
+    <xs:sequence>
+      <xs:element type="modstringsType" name="modstrings"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="modstringsType">
+    <xs:sequence>
+      <xs:element type="modstringType" name="modstring" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="workflowsType">
+    <xs:sequence>
+      <xs:element type="workflowType" name="workflow" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="reportfoldersType">
+    <xs:sequence>
+      <xs:element type="reportfolderType" name="reportfolder" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="relatedlistType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="function"/>
+      <xs:element type="xs:string" name="label"/>
+      <xs:element type="xs:string" name="sequence"/>
+      <xs:element type="xs:string" name="presence"/>
+      <xs:element type="xs:string" name="relatedmodule"/>
+      <xs:element type="actionsType" name="actions" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="modulesType">
+    <xs:sequence>
+      <xs:element type="moduleType" name="module" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="sortcolsType">
+    <xs:sequence>
+      <xs:element type="sortcolType" name="sortcol"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="customlinksType">
+    <xs:sequence>
+      <xs:element type="customlinkType" name="customlink" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="customlinkType">
+    <xs:sequence>
+      <xs:element name="linktype">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="DETAILVIEWBASIC"/>
+            <xs:enumeration value="DETAILVIEWWIDGET"/>
+            <xs:enumeration value="HEADERSCRIPT"/>
+            <xs:enumeration value="LISTVIEWSIDEBARWIDGET"/>
+            <xs:enumeration value="DASHBOARDWIDGET"/>
+            <xs:enumeration value="DETAILVIEWSIDEBARWIDGET"/>
+            <xs:enumeration value="LISTVIEWBASIC"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="xs:string" name="linklabel"/>
+      <xs:element type="xs:string" name="linkurl"/>
+      <xs:element name="linkicon">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value=""/>
+            <xs:enumeration value="themes/images/reload.gif"/>
+            <xs:enumeration value="themes/images/actionGenerateInvoice.gif"/>
+            <xs:enumeration value="themes/images/actionGenerateInvoice_new.gif"/>
+            <xs:enumeration value="themes/images/bookMark.gif"/>
+            <xs:enumeration value="themes/images/AddEvent.gif"/>
+            <xs:enumeration value="themes/images/AddToDo.gif"/>
+            <xs:enumeration value="themes/images/products.gif"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="sequence">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="0"/>
+            <xs:enumeration value="1"/>
+            <xs:enumeration value="2"/>
+            <xs:enumeration value="4"/>
+            <xs:enumeration value="5"/>
+            <xs:enumeration value="6"/>
+            <xs:enumeration value="7"/>
+            <xs:enumeration value="3"/>
+            <xs:enumeration value="9"/>
+            <xs:enumeration value="10"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="handler_path">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="modules/Documents/Documents.php"/>
+            <xs:enumeration value=""/>
+            <xs:enumeration value="modules/ProjectTask/ProjectTask.php"/>
+            <xs:enumeration value="NULL"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="handler_class">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="Documents"/>
+            <xs:enumeration value=""/>
+            <xs:enumeration value="ProjectTask"/>
+            <xs:enumeration value="NULL"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="handler">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="isLinkPermitted"/>
+            <xs:enumeration value=""/>
+            <xs:enumeration value="NULL"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="tasksType">
+    <xs:sequence>
+      <xs:element type="taskType" name="task"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="fieldType">
+    <xs:choice maxOccurs="unbounded" minOccurs="0">
+      <xs:element type="xs:string" name="name"/>
+      <xs:element type="xs:string" name="table"/>
+      <xs:element name="index">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="0"/>
+            <xs:enumeration value="1"/>
+            <xs:enumeration value="2"/>
+            <xs:enumeration value="3"/>
+            <xs:enumeration value="4"/>
+            <xs:enumeration value="5"/>
+            <xs:enumeration value="6"/>
+            <xs:enumeration value="7"/>
+            <xs:enumeration value="8"/>
+            <xs:enumeration value="9"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="xs:string" name="module"/>
+      <xs:element type="xs:string" name="fieldlabel"/>
+      <xs:element type="xs:string" name="columnname"/>
+      <xs:element type="xs:string" name="typeofdata"/>
+      <xs:element type="xs:string" name="fieldname"/>
+      <xs:element type="xs:string" name="uitype"/>
+      <xs:element type="xs:string" name="tablename"/>
+      <xs:element type="xs:string" name="columntype"/>
+      <xs:element name="generatedtype">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="1"/>
+            <xs:enumeration value="2"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="readonly">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="1"/>
+            <xs:enumeration value="0"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="presence">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="0"/>
+            <xs:enumeration value="2"/>
+            <xs:enumeration value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="defaultvalue">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value=""/>
+            <xs:enumeration value="1"/>
+            <xs:enumeration value="0"/>
+            <xs:enumeration value="no"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="xs:string" name="sequence"/>
+      <xs:element name="maximumlength">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="100"/>
+            <xs:enumeration value="200"/>
+            <xs:enumeration value="255"/>
+            <xs:enumeration value="10"/>
+            <xs:enumeration value="30"/>
+            <xs:enumeration value="1000"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="quickcreate">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="0"/>
+            <xs:enumeration value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="quickcreatesequence">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="0"/>
+            <xs:enumeration value="3"/>
+            <xs:enumeration value="5"/>
+            <xs:enumeration value="2"/>
+            <xs:enumeration value="4"/>
+            <xs:enumeration value="6"/>
+            <xs:enumeration value="1"/>
+            <xs:enumeration value="7"/>
+            <xs:enumeration value="8"/>
+            <xs:enumeration value="9"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="displaytype">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="1"/>
+            <xs:enumeration value="2"/>
+            <xs:enumeration value="3"/>
+            <xs:enumeration value="5"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="info_type">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="BAS"/>
+            <xs:enumeration value="ADV"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="helpinfo">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="
+                    "/>
+            <xs:enumeration value=""/>
+            <xs:enumeration value="Это оценка трудоемкости заявки в часах.&amp;lt;br&amp;gt;При добавлении заявки к Сервисному Контракту число использованных единиц обслуживания автоматически увеличивается при закрытии заявки на величину, указанную в заявке. При этом выбирается оценка в зависимости от значения поля Отслеживаемая Единица."/>
+            <xs:enumeration value="Это оценка трудоемкости заявки в днях.&amp;lt;br&amp;gt;При добавлении заявки к Сервисному Контракту число использованных единиц обслуживания автоматически увеличивается при закрытии заявки на величину, указанную в заявке. При этом выбирается оценка в зависимости от значения поля Отслеживаемая Единица."/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="summaryfield">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="1"/>
+            <xs:enumeration value="0"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="masseditable">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="0"/>
+            <xs:enumeration value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="relatedmodulesType" name="relatedmodules"/>
+      <xs:element type="xs:string" name="cleanpicklistvalues"/>
+      <xs:element type="picklistvaluesType" name="picklistvalues"/>
+      <xs:element type="entityidentifierType" name="entityidentifier"/>
+      <xs:element type="xs:string" name="columnindex"/>
+      <xs:element type="rulesType" name="rules"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:complexType name="cronsType">
+    <xs:sequence>
+      <xs:element type="cronType" name="cron"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="fieldsType">
+    <xs:sequence>
+      <xs:element type="fieldType" name="field" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="customviewsType">
+    <xs:sequence>
+      <xs:element type="customviewType" name="customview" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

@@ -1,7 +1,7 @@
 package com.xerocry.mondrian_maker.xml_elements;
 
 import com.xerocry.mondrian_maker.Directories;
-import com.xerocry.mondrian_maker.classes.DbScheme;
+import com.xerocry.mondrian_maker.classes.Schema;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -9,6 +9,8 @@ import org.jdom2.input.SAXBuilder;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 public class XMLParser {
@@ -39,7 +41,7 @@ public class XMLParser {
         this.testDescriptor = Directories.getInstance().testXMLPath;
     }
 
-    public DbScheme readXML() throws JDOMException, IOException{
+    public Schema readXML() throws JDOMException, IOException{
         SAXBuilder builder = new SAXBuilder();
         Document document = builder.build(new File(testDescriptor));
 
@@ -50,7 +52,7 @@ public class XMLParser {
 
         parseXML(configuration);
 
-        return vTigerxML.generateScheme();
+        return vTigerxML.generateSchema();
     }
 
     private void parseXML(Element configuration) {
@@ -58,12 +60,13 @@ public class XMLParser {
         List<Element> modules = modulesElement.getChildren();
 
         for (Element moduleElement : modules) {
+            System.out.println();
             ModuleXML moduleXML = parseModuleXML(moduleElement);
             vTigerxML.addModule(moduleXML);
 
         }
-    }
 
+}
     private ModuleXML parseModuleXML(Element module) {
         ModuleXML moduleXML = new ModuleXML();
         List<Element> childNodes = module.getChildren();
@@ -85,16 +88,29 @@ public class XMLParser {
 
                     for (Element field : fieldElements) {
                         FieldXML fieldXML = new FieldXML();
-                        if (field.getChild(TABLENAME_ELEMENT).getValue().equals(CRM_TABLE_FIELD)) {
+
+                        if (!field.getChild(TABLENAME_ELEMENT).getValue().equals(CRM_TABLE_FIELD)) {
+                            fieldXML.setTableName(field.getChild(TABLENAME_ELEMENT).getValue());
+                            moduleXML.setFactTable(field.getChild(TABLENAME_ELEMENT).getValue());
+                        } else {
+                            fieldXML.setTableName(CRM_TABLE_FIELD);
                             fieldXML.setCrmEntity(true);
-                        } else fieldXML.setTableName(field.getChild(TABLENAME_ELEMENT).getValue());
+                        }
+
                         fieldXML.setColumnName(field.getChild(COLUMNNAME_ELEMENT).getValue());
                         fieldXML.setColumnType(field.getChild(COLUMTYPE_ELEMENT).getValue());
                         fieldXML.setFieldName(field.getChild(FIELDNAME_ELEMENT).getValue());
                         fieldXML.setUiType(field.getChild(UI_TYPE_ELEMENT).getValue());
                         if (fieldXML.isRelated()) {
                             Element related = field.getChild(ROOT_RELATED_MODULE_ELEMENT);
-                            fieldXML.setRelatedModule(related.getChild(RELATED_MODULE_ELEMENT).getValue());
+                            try {
+                                List<Element> modules = related.getChildren(RELATED_MODULE_ELEMENT);
+                                for (Element node : modules) {
+                                    fieldXML.addRelatedModule(node.getValue());
+                                }
+                            } catch (NullPointerException e) {
+                                fieldXML.addRelatedModule(moduleXML.getModuleName());
+                            }
 
                         }
                         moduleXML.addNewField(fieldXML);
@@ -105,11 +121,7 @@ public class XMLParser {
             if (childNode.getName().equals(ROOT_RELATED_LIST_ELEMENT)) {
                 List<Element> relList = childNode.getChildren();
                 for (Element relElement : relList) {
-//                    Element listElement = relList.getChild(RELATED_LIST_ELEMENT);
-//                    List<Element> listElements = relElement.getChildren();
                     moduleXML.addRelatedModule(relElement.getChild(RELATED_MODULE_ELEMENT).getValue());
-//                    for (Element list : listElements) {
-//                    }
                 }
             }
         }

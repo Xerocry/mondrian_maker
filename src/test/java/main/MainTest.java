@@ -13,7 +13,7 @@ public class MainTest {
     String outputLocation;
     @Before
     public void initialize() {
-        outputLocation = "outputjcl";
+        outputLocation = "outputSchema";
     }
 
     @Test

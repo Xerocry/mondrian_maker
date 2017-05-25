@@ -1,8 +1,13 @@
 package com.xerocry.mondrian_maker;
 
 import com.xerocry.mondrian_maker.classes.DatabaseConfiguration;
+import com.xerocry.mondrian_maker.classes.Schema;
 import org.jdom2.JDOMException;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.crypto.Data;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,16 +22,25 @@ public class MainClass {
     }
 
     private void run() throws IOException{
-        String outputFile = (new File("firstVer")).getName();
-        PrintWriter outFilePrintWriter = new PrintWriter(new File("output" + outputFile));
+        String outputFile = (new File("firstVer.xml")).getName();
+        PrintWriter outFilePrintWriter = new PrintWriter(new File("outputSchema/" + outputFile));
         try {
-            ArrayList<String> scheme = DatabaseConfiguration.getInstance().generateTest();
+            JAXBContext jaxbContext = JAXBContext.newInstance(Schema.class);
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+            // output pretty printed
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+            jaxbMarshaller.marshal(DatabaseConfiguration.getSchema(), outFilePrintWriter);
+            jaxbMarshaller.marshal(DatabaseConfiguration.getSchema(), System.out);
 //            if (scheme.size() == 0) {
 //                throw new Exception("Dump has 0 modules");
 //            }
-            for (String s : scheme) {
-                outFilePrintWriter.println(s);
-            }
+//            for (String s : DatabaseConfiguration.getInstance()) {
+//                outFilePrintWriter.println(s);
+//            }
+        } catch (JAXBException e) {
+            e.printStackTrace();
         } finally {
             Directories.deleteInstance();
         }
