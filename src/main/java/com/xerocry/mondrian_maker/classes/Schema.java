@@ -1,49 +1,25 @@
 package com.xerocry.mondrian_maker.classes;
 
-import com.xerocry.mondrian_maker.mondrian_classes.Dimension;
+import com.xerocry.mondrian_maker.mondrian_classes.Cube;
+import lombok.Getter;
+import lombok.Setter;
 
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
-public class DbScheme {
+@Getter
+@Setter
+@XmlRootElement(name="Schema")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Schema {
+    @XmlAttribute
+    private String name = "Test Schema";
 
-    private HashMap<String, Dimension> dimensions = new HashMap<>();
+    @XmlElement(name = "Cube", type = Cube.class)
+    private List<Cube> cubes = new ArrayList<>();
 
-    public enum Hierarchy {
-
-        OS(null),
-        Windows(OS),
-        WindowsNT(Windows),
-        WindowsNTWorkstation(WindowsNT),
-        WindowsNTServer(WindowsNT),
-        Windows2000(Windows),
-        Windows2000Server(Windows2000),
-        Windows2000Workstation(Windows2000),
-        WindowsXp(Windows),
-        WindowsVista(Windows),
-        Windows7(Windows),
-        Windows95(Windows),
-        Windows98(Windows),
-        Unix(OS) {
-            @Override
-            public boolean supportsXWindows() {
-                return true;
-            }
-        },
-        Linux(Unix),
-        AIX(Unix),
-        HpUx(Unix),
-        SunOs(Unix),
-        ;
-        private Hierarchy parent = null;
-
-        private Hierarchy(Hierarchy parent) {
-            this.parent = parent;
-        }
+    public void addCube(Cube cube) {
+        cubes.add(cube);
     }
-
-    public ArrayList<String> generateScheme() {
-        return null;
-    }
-
 }

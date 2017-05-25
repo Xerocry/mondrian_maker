@@ -12,8 +12,10 @@ public class ModuleXML {
     private Integer sequenceNum;
     private ArrayList<FieldXML> fieldXMLList;
 
-    private boolean related;
     private boolean crmEntity;
+    private String factTable;
+
+    private boolean related;
     private ArrayList<String> relatedModules;
 
     public ModuleXML() {
@@ -28,7 +30,5 @@ public class ModuleXML {
     public void addRelatedModule(String module) {
         relatedModules.add(module);
     }
-
-
 
 }
