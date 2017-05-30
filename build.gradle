@@ -16,6 +16,9 @@ repositories {
     maven {
         url 'http://repo.pentaho.org/artifactory/repo'
     }
+    maven {
+        url 'http://repository.pentaho.org/artifactory/repo/pentaho/pentaho-platform-core/5.0.1-stable'
+    }
     ivy {
         url "http://repo.pentaho.org/artifactory/repo/"
         layout  "pattern", {
@@ -45,28 +48,12 @@ dependencies {
     compile("pentaho-kettle:kettle-ui-swt:${project.ext.kettle_dependency_revision}")
     compile("pentaho:metastore:${project.ext.metastore_dependency_revision}")
     compile("org.eclipse.swt:swt-linux-x86_64:4.3.2")
+    // https://mvnrepository.com/artifact/org.springframework/spring-beans
+    compile group: 'org.springframework', name: 'spring-beans', version: '4.3.8.RELEASE'
+    compile 'pentaho:pentaho-bi-platform-engine-core:4.8.0-stable'
+    compile 'pentaho:pentaho-bi-platform-engine-services:4.8.0-stable'
+    compile group: 'javax.ws.rs', name: 'javax.ws.rs-api', version: '2.0'
+
 
     compileOnly "org.projectlombok:lombok:1.16.16"
-
-    // Put JARs that you can't resolve in the lib-dist folder. Probably better to deploy to local Maven but this is here just in case :)
-    compile fileTree(dir: 'lib-dist', include: '*.jar')
-    runtimeWithoutCompile fileTree(dir: 'lib-dist', include: '*.jar')
-}
-
-task plugin(dependsOn:jar, type: Zip) {
-    into("${project.name}/") {
-        from jar.outputs.files
-        from fileTree(dir: 'package-res')
-    }
-    into("${project.name}/lib") {
-        from configurations.runtimeWithoutCompile
-    }
-}
-
-artifacts {
-    zip plugin
-}
-
-task createGradleWrapper(type: Wrapper) {
-    gradleVersion = '1.7'
 }
