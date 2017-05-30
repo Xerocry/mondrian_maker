@@ -10,7 +10,7 @@ import java.io.IOException;
  * Created by raskia on 5/9/2017.
  */
 public class MainTest {
-    String outputLocation;
+    private String outputLocation;
     @Before
     public void initialize() {
         outputLocation = "outputSchema";
@@ -21,6 +21,4 @@ public class MainTest {
         String[] args = {"vtiger/test.xml", "outputSchema"};
         MainClass.main(args);
     }
-
-
 }

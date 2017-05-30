@@ -14,7 +14,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Schema {
     @XmlAttribute
-    private String name = "Test Schema";
+    private String name = "firstVer";
 
     @XmlElement(name = "Cube", type = Cube.class)
     private List<Cube> cubes = new ArrayList<>();
