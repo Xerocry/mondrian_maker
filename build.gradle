@@ -3,10 +3,36 @@ version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
 
-sourceCompatibility = 1.8
+// External property (deprecated in Gradle 2.x) for Kettle and metastore versions. If you wish to
+// put your plugin in the Marketplace against the current revision (say, 5.0.x), use the latest
+// release tag
+project.ext.kettle_dependency_revision = '7.0.0.6-94'
+project.ext.metastore_dependency_revision = '7.0.0.6-95'
 
 repositories {
+    maven {
+        url 'http://nexus.pentaho.org/content/groups/omni/'
+    }
+    maven {
+        url 'http://repo.pentaho.org/artifactory/repo'
+    }
+    ivy {
+        url "http://repo.pentaho.org/artifactory/repo/"
+        layout  "pattern", {
+            ivy "[organisation]/[module]/[revision]/[module]-[revision].ivy.xml"
+            artifact "[organisation]/[module]/[revision]/[module]-[revision].jar"
+            m2compatible = true
+        }
+    }
     mavenCentral()
+    mavenLocal()
+}
+
+configurations {
+    runtimeWithoutCompile {
+        transitive = false
+    }
+    zip
 }
 
 dependencies {
@@ -14,5 +40,33 @@ dependencies {
 
     compile group: 'org.jdom', name: 'jdom2', version: '2.0.5'
 
+    compile("pentaho-kettle:kettle-core:${project.ext.kettle_dependency_revision}")
+    compile("pentaho-kettle:kettle-engine:${project.ext.kettle_dependency_revision}")
+    compile("pentaho-kettle:kettle-ui-swt:${project.ext.kettle_dependency_revision}")
+    compile("pentaho:metastore:${project.ext.metastore_dependency_revision}")
+    compile("org.eclipse.swt:swt-linux-x86_64:4.3.2")
+
     compileOnly "org.projectlombok:lombok:1.16.16"
+
+    // Put JARs that you can't resolve in the lib-dist folder. Probably better to deploy to local Maven but this is here just in case :)
+    compile fileTree(dir: 'lib-dist', include: '*.jar')
+    runtimeWithoutCompile fileTree(dir: 'lib-dist', include: '*.jar')
+}
+
+task plugin(dependsOn:jar, type: Zip) {
+    into("${project.name}/") {
+        from jar.outputs.files
+        from fileTree(dir: 'package-res')
+    }
+    into("${project.name}/lib") {
+        from configurations.runtimeWithoutCompile
+    }
+}
+
+artifacts {
+    zip plugin
+}
+
+task createGradleWrapper(type: Wrapper) {
+    gradleVersion = '1.7'
 }

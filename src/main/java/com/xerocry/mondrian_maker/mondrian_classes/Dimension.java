@@ -38,6 +38,7 @@ public class Dimension {
         this.name = field.getFieldName();
         Hierarchy hierarchy = new Hierarchy();
         hierarchy.setName(field.getFieldName());
+
         Level level = new Level();
         level.setColumn(field.getColumnName());
         level.setName(field.getFieldName());
@@ -45,7 +46,7 @@ public class Dimension {
         hierarchy.addLevel(level);
         if (field.getTableName().equals("vtiger_crmentity")) {
             this.table = "vtiger_crmentity";
-        }
+        } else this.table = field.getTableName();
         this.hierarchy.add(hierarchy);
 
         return this;

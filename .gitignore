@@ -5,7 +5,10 @@ build/
 gradle/
 gradlew
 gradlew.bat
-output/
-outputSchema/
 outputfirstVer
 src/test/java/main/classes/
+/src/main/java/generated/
+/src/main/java/xmlbeans/
+/vtiger/schema/
+src/main/java/generated/
+src/main/java/xmlbeans/

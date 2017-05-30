@@ -26,5 +26,4 @@ public class TableAdapter extends XmlAdapter<TableAdapter.AdaptedTable, String> 
         public String name;
 
     }
-
 }

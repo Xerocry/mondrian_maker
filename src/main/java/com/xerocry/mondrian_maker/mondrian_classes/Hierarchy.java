@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,12 +27,9 @@ public class Hierarchy {
     @XmlAttribute
     private boolean hasAll=true;
 
+
     public Hierarchy() {
         this.levels = new ArrayList<>();
-    }
-
-    public Hierarchy generate(FieldXML field) {
-        return new Hierarchy();
     }
 
     public void addLevel(Level level) {
