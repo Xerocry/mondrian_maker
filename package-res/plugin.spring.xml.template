@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ws="http://jax-ws.dev.java.net/spring/core" xmlns:wss="http://jax-ws.dev.java.net/spring/servlet"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+                           http://jax-ws.dev.java.net/spring/core http://jax-ws.dev.java.net/spring/core.xsd
+                           http://jax-ws.dev.java.net/spring/servlet http://jax-ws.dev.java.net/spring/servlet.xsd">
+
+  <context:annotation-config />
+  <bean id="@jax-rs.bean.name@" class="org.pentaho.platform.web.servlet.JAXRSPluginServlet"/>
+  <bean id="@plugin.id@" class="org.pentaho.helloworld.endpoints.PentahoHelloWorldContentGenerator" scope="prototype"/>
+  
+  <!-- START: Domain Entity Factories -->
+  <bean id="@plugin.id@.address-factory" class="org.pentaho.helloworld.domain.model.factories.AddressFactory"/>
+  
+  <bean id="@plugin.id@.user-factory" class="org.pentaho.helloworld.domain.model.factories.UserFactory">
+	<constructor-arg ref="@plugin.id@.address-factory"/>
+  </bean>
+  <!-- END: Domain Entity Factories -->
+  
+  <!-- START: Domain Services -->
+  <bean id="@plugin.id@.user-service" class="org.pentaho.helloworld.domain.services.UserService">
+	<constructor-arg ref="@plugin.id@.user-factory"/>
+  </bean>
+  <!-- END: Domain Services -->
+  
+  <!-- START: RDO -->
+  <bean id="@plugin.id@.rdo" class="org.pentaho.helloworld.domain.services.RDO">
+	<constructor-arg ref="@plugin.id@.user-service"/>
+  </bean>
+  <!-- END: RDO -->
+  
+  <!-- START: DTO Mappers -->
+  <bean id="@plugin.id@.address-mapper" class="org.pentaho.helloworld.endpoints.dtos.mappers.AddressDTOMapper">
+	<constructor-arg ref="@plugin.id@.address-factory"/>
+  </bean>
+  
+  <bean id="@plugin.id@.user-mapper" class="org.pentaho.helloworld.endpoints.dtos.mappers.UserDTOMapper">
+	<constructor-arg ref="@plugin.id@.user-factory"/>
+	<constructor-arg ref="@plugin.id@.address-mapper"/>
+  </bean>
+  <!-- END: DTO Mappers -->
+  
+  <!-- START: Service Endpoints -->
+  <bean id="@plugin.id@.service-endpoint" class="org.pentaho.helloworld.endpoints.PentahoHelloWorldService">
+	<constructor-arg ref="@plugin.id@.rdo"/>
+	<constructor-arg ref="@plugin.id@.user-mapper"/>
+  </bean>
+  <!-- END: Service Endpoints -->
+</beans>
