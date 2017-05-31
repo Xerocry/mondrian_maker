@@ -20,10 +20,10 @@ import java.io.*;
 /**
  * Created by raskia on 5/31/2017.
  */
-public class ShemaFactory implements ISchemaFactory {
+public class SchemaFactory implements ISchemaFactory {
 
     @Autowired
-    public ShemaFactory(String[] args) throws IOException, JDOMException {
+    public SchemaFactory(String[] args) throws IOException, JDOMException {
         Arguments arguments = new Arguments(args);
         Directories.init(arguments);
         DatabaseConfiguration.init(args);

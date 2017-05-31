@@ -1,17 +1,15 @@
 package com.xerocry.mondrian_maker;
 
-import com.xerocry.mondrian_maker.classes.DatabaseConfiguration;
-import com.xerocry.mondrian_maker.classes.Schema;
+import com.xerocry.mondrian_maker.domain.model.entities.Schema;
+import com.xerocry.mondrian_maker.domain.model.entities.DatabaseConfiguration;
 import org.jdom2.JDOMException;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.crypto.Data;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 
 public class MainClass {
 

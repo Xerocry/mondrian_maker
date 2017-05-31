@@ -15,7 +15,7 @@ public class Arguments {
     private ArrayList<String> options = new ArrayList<>();
     private boolean clean = false;
 
-    Arguments(String[] args) {
+    public Arguments(String[] args) {
         this.args = args;
         readSerial();
     }

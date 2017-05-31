@@ -1,5 +1,6 @@
 package com.xerocry.mondrian_maker.endpoints;
 
+import com.xerocry.mondrian_maker.domain.model.entities.Schema;
 import com.xerocry.mondrian_maker.domain.model.entities.interfaces.IUser;
 import com.xerocry.mondrian_maker.domain.services.interfaces.IRDO;
 import com.xerocry.mondrian_maker.endpoints.dtos.mappers.interfaces.IUserDTOMapper;
@@ -29,6 +30,17 @@ public class PentahoVtigerGetService {
     this.RDO = rdo;
     this.userDTOMapper = userDTOMapper;
   }
+
+  @GET
+  @Path("/getMondrian")
+  @Produces(MediaType.APPLICATION_XML)
+  public StringOperationResultDTO getSchema() {
+    //create result DTO
+    StringOperationResultDTO result = new StringOperationResultDTO();
+    Schema schema = new Schema();
+    return result;
+  }
+
 
   @GET
   @Path( "/hello" )

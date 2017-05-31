@@ -32,7 +32,7 @@ public class Directories {
         return instance;
     }
 
-    static void deleteInstance() {
+    public static void deleteInstance() {
         instance = null;
     }
 

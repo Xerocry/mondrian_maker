@@ -1,14 +1,12 @@
 package com.xerocry.mondrian_maker.domain.model.factories.interfaces;
 
-import com.xerocry.mondrian_maker.domain.model.entities.Schema;
-import com.xerocry.mondrian_maker.domain.model.entities.interfaces.IAddress;
-import com.xerocry.mondrian_maker.domain.model.entities.interfaces.IUser;
+
+import java.io.FileNotFoundException;
 
 /**
  * Created by raskia on 5/31/2017.
  */
-public interface IConfigurationFactory {
+public interface ISchemaFactory {
 
-    void init(String[] args);
-
+    String validSchema() throws FileNotFoundException;
 }

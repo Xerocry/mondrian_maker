@@ -1,6 +1,6 @@
 package com.xerocry.mondrian_maker.xml_elements;
 
-import com.xerocry.mondrian_maker.classes.Schema;
+import com.xerocry.mondrian_maker.domain.model.entities.Schema;
 import com.xerocry.mondrian_maker.mondrian_classes.Cube;
 
 import java.util.*;
