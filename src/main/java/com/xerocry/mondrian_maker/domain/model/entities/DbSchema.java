@@ -1,4 +1,4 @@
-package com.xerocry.mondrian_maker.classes;
+package com.xerocry.mondrian_maker.domain.model.entities;
 
 import java.util.ArrayList;
 

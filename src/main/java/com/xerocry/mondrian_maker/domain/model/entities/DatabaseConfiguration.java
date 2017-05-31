@@ -1,12 +1,14 @@
-package com.xerocry.mondrian_maker.classes;
+package com.xerocry.mondrian_maker.domain.model.entities;
 
 import com.xerocry.mondrian_maker.xml_elements.XMLParser;
 import org.jdom2.JDOMException;
 
 import java.io.IOException;
 
-public class DatabaseConfiguration {
-
+/**
+ * Created by raskia on 5/31/2017.
+ */
+public class DatabaseConfiguration{
     private static DatabaseConfiguration instance;
     private static Schema schema;
 
@@ -15,15 +17,13 @@ public class DatabaseConfiguration {
             instance = new DatabaseConfiguration(args);
             schema = new XMLParser().readXML();
         }
-
     }
 
     public static DatabaseConfiguration getInstance() {
         return instance;
     }
 
-    private DatabaseConfiguration(String[] args) {
-    }
+    private DatabaseConfiguration(String[] args) { }
 
     public static Schema getSchema() {
         return schema;
