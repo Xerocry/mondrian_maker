@@ -1,7 +1,7 @@
-pentaho-VTiger
+pentaho-helloworld
 ==================
 
-This project is intended to help integrate VTiger CRM system with Pentaho platform.
+This project is intended to help kick-start new plugin development for the Pentaho platform.
 
 NOTE: this is a **work-in-progress**
 
@@ -30,7 +30,7 @@ Assumptions:
     - **package.json**: client-side dependencies not resolved via Ivy (e.g., Karma)
 
 2. Technology:
-    - **Java 8** for server-side code.
+    - **Java 6** for server-side code.
 	- **Spring** for server-side dependency injection.
 	- **JAX-RS** with **JAXB** annotations for REST endpoint implementation and server-side serialization.
     - **JUnit** for server-side code testing.
@@ -80,3 +80,20 @@ Main Ant targets:
 9. **test-js**: run client-side tests
 
 10. **gen-dev-js**: generate client-side app launcher from templates for development-time testing
+
+
+Usage:
+------
+
+1. Get "pentaho-helloworld"
+2. Execute "ant"
+3. Deploy the distribution zip in the pentaho server
+	1. Unzip the zip generated in the "dist" directory
+	2. Copy the unzipped "pentaho-helloworld" directory to "'path_of_server'/pentaho-solutions/system"
+4. Launch the server
+5. Access the server's "'base_server_root'" (e.g., "http://localhost:8080")
+6. Access the new "Pentaho Hello World" perspective to test the client-side code
+7. Access the following endpoints to test the server-side code:
+	1. 'base_server_root'/pentaho/plugin/pentaho-helloworld-plugin/api/hello: Hello world!
+	2. 'base_server_root'/pentaho/plugin/pentaho-helloworld-plugin/api/users: returns a serialized list of user DTOs, using either XML or JSON, dependent on you HTTP content header.
+	3. 'base_server_root'/pentaho/plugin/pentaho-helloworld-plugin/api/user/'userName': returns a specific user DTO from the previous users list, identified by its "userName" property.

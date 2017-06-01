@@ -36,6 +36,29 @@
 		<!-- Spring Framework -->
 		<dependency org="org.springframework" name="spring" rev="2.5.6" conf="default->default" transitive="false" />
 
+		<!-- https://mvnrepository.com/artifact/org.jdom/jdom2 -->
+		<dependency org="org.jdom" name="jdom2" rev="2.0.4"/>
+
+		<!-- https://mvnrepository.com/artifact/junit/junit -->
+		<dependency org="junit" name="junit" rev="4.12"/>
+
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		<dependency org="org.projectlombok" name="lombok" rev="1.16.6"/>
+
+		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+		<dependency org="javax.servlet" name="javax.servlet-api" rev="3.0.1"/>
+
+		<!-- https://mvnrepository.com/artifact/com.jayway.jsonpath/json-path -->
+		<dependency org="com.jayway.jsonpath" name="json-path" rev="2.2.0"/>
+
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
+		<dependency org="org.springframework.boot" name="spring-boot-starter-web" rev="1.5.3.RELEASE"/>
+
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
+		<dependency org="org.springframework.boot" name="spring-boot-starter-test" rev="1.5.3.RELEASE"/>
+
+
+
 	</dependencies>
 
 </ivy-module>

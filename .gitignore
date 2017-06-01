@@ -1,17 +1,3 @@
-# Created by .ignore support plugin (hsz.mobi)
-.gradle/
-.idea/
-build/
-gradle/
-gradlew
-gradlew.bat
-outputfirstVer
-src/test/java/main/classes/
-/src/main/java/generated/
-/src/main/java/xmlbeans/
-/vtiger/schema/
-src/main/java/generated/
-src/main/java/xmlbeans/
 bin/
 node_modules/
 js-lib/
@@ -30,3 +16,6 @@ build-res/javascript.build.js
 build-res/pentaho-js-build/
 build-res/requireCfg-raw.js
 build-res/requireCfg.js
+dev-lib
+/outputSchema/
+/.idea/
