@@ -2,6 +2,8 @@ group 'com.xerocry'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
 
 // External property (deprecated in Gradle 2.x) for Kettle and metastore versions. If you wish to
 // put your plugin in the Marketplace against the current revision (say, 5.0.x), use the latest
@@ -9,23 +11,33 @@ apply plugin: 'java'
 project.ext.kettle_dependency_revision = '7.0.0.6-94'
 project.ext.metastore_dependency_revision = '7.0.0.6-95'
 
-repositories {
-    maven {
-        url 'http://nexus.pentaho.org/content/groups/omni/'
-    }
-    maven {
-        url 'http://repo.pentaho.org/artifactory/repo'
-    }
-    ivy {
-        url "http://repo.pentaho.org/artifactory/repo/"
-        layout  "pattern", {
-            ivy "[organisation]/[module]/[revision]/[module]-[revision].ivy.xml"
-            artifact "[organisation]/[module]/[revision]/[module]-[revision].jar"
-            m2compatible = true
+ant.importBuild 'build.xml'
+buildscript{
+    repositories {
+        maven {
+            url 'http://nexus.pentaho.org/content/groups/omni/'
         }
+        maven {
+            url 'http://repo.pentaho.org/artifactory/repo'
+        }
+        maven {
+            url 'http://repository.pentaho.org/artifactory/repo/pentaho/pentaho-platform-core/5.0.1-stable'
+        }
+        ivy {
+            url "http://repo.pentaho.org/artifactory/repo/"
+            layout  "pattern", {
+                ivy "[organisation]/[module]/[revision]/[module]-[revision].ivy.xml"
+                artifact "[organisation]/[module]/[revision]/[module]-[revision].jar"
+                m2compatible = true
+            }
+        }
+        mavenCentral()
+        mavenLocal()
     }
-    mavenCentral()
-    mavenLocal()
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.3.RELEASE")
+    }
 }
 
 configurations {
@@ -45,28 +57,16 @@ dependencies {
     compile("pentaho-kettle:kettle-ui-swt:${project.ext.kettle_dependency_revision}")
     compile("pentaho:metastore:${project.ext.metastore_dependency_revision}")
     compile("org.eclipse.swt:swt-linux-x86_64:4.3.2")
+    compile group: 'org.springframework', name: 'spring-beans', version: '4.3.8.RELEASE'
+    compile 'pentaho:pentaho-bi-platform-engine-core:4.8.0-stable'
+    compile 'pentaho:pentaho-bi-platform-engine-services:4.8.0-stable'
+    compile group: 'javax.ws.rs', name: 'javax.ws.rs-api', version: '2.0'
+
+    compile("org.springframework.boot:spring-boot-starter-web")
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('com.jayway.jsonpath:json-path')
 
     compileOnly "org.projectlombok:lombok:1.16.16"
-
-    // Put JARs that you can't resolve in the lib-dist folder. Probably better to deploy to local Maven but this is here just in case :)
-    compile fileTree(dir: 'lib-dist', include: '*.jar')
-    runtimeWithoutCompile fileTree(dir: 'lib-dist', include: '*.jar')
 }
 
-task plugin(dependsOn:jar, type: Zip) {
-    into("${project.name}/") {
-        from jar.outputs.files
-        from fileTree(dir: 'package-res')
-    }
-    into("${project.name}/lib") {
-        from configurations.runtimeWithoutCompile
-    }
-}
 
-artifacts {
-    zip plugin
-}
-
-task createGradleWrapper(type: Wrapper) {
-    gradleVersion = '1.7'
-}

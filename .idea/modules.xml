@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.mondrian_maker.iml" filepath="$PROJECT_DIR$/.idea/modules/com.mondrian_maker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.mondrian_maker_main.iml" filepath="$PROJECT_DIR$/.idea/modules/com.mondrian_maker_main.iml" group="com.mondrian_maker" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.mondrian_maker_test.iml" filepath="$PROJECT_DIR$/.idea/modules/com.mondrian_maker_test.iml" group="com.mondrian_maker" />
+    </modules>
+  </component>
+</project>
