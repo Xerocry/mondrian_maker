@@ -399,7 +399,7 @@ TYPICAL TARGET SEQUENCE
       
       The target that is run if no target is given
       ====================================================================-->
-  <target name="default" depends="build" />
+  <target name="default" depends="build1" />
 
 
   <!--=======================================================================
@@ -407,7 +407,7 @@ TYPICAL TARGET SEQUENCE
       
       Runs a typical build process to create the project locally
       ====================================================================-->
-  <target name="build" depends="clean-all,resolve,cobertura,dist-source,dist" />
+  <target name="build1" depends="clean-all,resolve,cobertura,dist-source,dist" />
 
 
   <!--=======================================================================
@@ -424,7 +424,7 @@ TYPICAL TARGET SEQUENCE
       Runs a typical continuous integration build including project dist,
       test, and coverage artifacts
       ====================================================================-->
-  <target name="continuous" depends="build,publish" />
+  <target name="continuous" depends="build1,publish" />
 
 
   <!--=======================================================================
@@ -1072,7 +1072,7 @@ TYPICAL TARGET SEQUENCE
       
       Removes all the files generated from the build process.
       ====================================================================-->
-  <target name="clean"
+  <target name="clean1"
           description="Cleans all the files generated from a build with the exception of IVY-downloaded jars (see clean-all)"
           depends="clean-tests, clean-cobertura, clean-sonar, clean-javadoc, clean-dist">
     <delete dir="${classes.dir}" />
@@ -1097,7 +1097,7 @@ TYPICAL TARGET SEQUENCE
       in the workspace's lib dirs as well as all the files 
       generated from the build process.
       ====================================================================-->
-  <target name="clean-all" depends="clean,clean-jars" description="Cleans all the generated and dependency files" />
+  <target name="clean-all" depends="clean1,clean-jars" description="Cleans all the generated and dependency files" />
 
 
   <!--=======================================================================
@@ -1250,7 +1250,7 @@ TYPICAL TARGET SEQUENCE
       
       Creates a jar file from the bin directory
       ====================================================================-->
-  <target name="jar"
+  <target name="jar1"
           depends="jar.main,jar.test"
           description="Jars up the bin directory after a compile">
   </target>
@@ -1387,7 +1387,7 @@ TYPICAL TARGET SEQUENCE
       
       Compiles and runs all the tests for the project
       ====================================================================-->
-  <target name="test" depends="compile,compile-tests, init-test-reports" description="Compiles and runs unit tests">
+  <target name="test1" depends="compile,compile-tests, init-test-reports" description="Compiles and runs unit tests">
     <junit maxmemory="${junit.maxmemory}"
            dir="${junit.base.dir}"
            fork="yes"
@@ -1448,7 +1448,7 @@ TYPICAL TARGET SEQUENCE
       
       Creates a distribution of this project
       ====================================================================-->
-  <target name="dist" depends="jar" description="Creates a distribution" />
+  <target name="dist" depends="jar1" description="Creates a distribution" />
 
 
   <!--=======================================================================
@@ -1457,7 +1457,7 @@ TYPICAL TARGET SEQUENCE
       Creates a distribution of this project including all sources needed
       to build as well as the resultant jar
       ====================================================================-->
-  <target name="dist-full" depends="jar"
+  <target name="dist-full" depends="jar1"
           description="Creates all the distributable items for this project">
     <!-- Create the required zip distribution which contains the entire project -->
     <zip destfile="${dist.dir}/${ivy.artifact.id}-${project.revision}.zip">
@@ -1476,7 +1476,7 @@ TYPICAL TARGET SEQUENCE
       
       Generates javadoc source documentation for this project
       ====================================================================-->
-  <target name="javadoc" depends="javadoc.init, compile">
+  <target name="javadoc1" depends="javadoc.init, compile">
     <javadoc destdir="${javadoc.dir}/docs/api"
              access="public"
              source="8"
@@ -1573,7 +1573,7 @@ TYPICAL TARGET SEQUENCE
       
       Creates a zip of the javadoc for distribution
       ====================================================================-->
-  <target name="javadoc.zip" depends="javadoc">
+  <target name="javadoc.zip" depends="javadoc1">
     <jar jarfile="${dist.dir}/${javadoc.zip.filename}"
          basedir="${javadoc.dir}"
          includes="**/*"
@@ -1586,7 +1586,7 @@ TYPICAL TARGET SEQUENCE
       
       Creates a gzipped tar of the javadoc for distribution
       ====================================================================-->
-  <target name="javadoc.targz" depends="javadoc">
+  <target name="javadoc.targz" depends="javadoc1">
     <tar compression="gzip"
          destfile="${dist.dir}/${javadoc.tar.filename}"
          basedir="${javadoc.dir}"
@@ -1966,7 +1966,7 @@ TYPICAL TARGET SEQUENCE
     
     Generates a tattletale report for this project
     ====================================================================-->
-  <target name="tattletale-report" depends="install-tattletale,jar">
+  <target name="tattletale-report" depends="install-tattletale,jar1">
     <tattletale.report source="${basedir}" destination="${tattletale.reports.dir}"/>
   </target>
   
@@ -2010,7 +2010,7 @@ TYPICAL TARGET SEQUENCE
     sonar.jdbc.password
     sonar.host.url
     ====================================================================-->
-  <target name="sonar" depends="install-sonar, compile, test, cobertura">
+  <target name="sonar" depends="install-sonar, compile, test1, cobertura">
     <property name="sonar.sources" value="${src.dir}" />
     <property name="sonar.binaries" value="${classes.dir}" />
     <property name="sonar.tests" value="${testsrc.dir}" />

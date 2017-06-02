@@ -64,9 +64,15 @@ public class PentahoHelloWorldService {
   @GET
   @Path( "/mondrian" )
   @Produces(MediaType.APPLICATION_XML)
-  public String mondrian(HttpServletResponse response) throws ParserConfigurationException, SAXException, IOException, JDOMException {
-
-    response.setContentType("application/xml");
+  public String mondrian( @PathParam( CATALOG_ID ) String catalog, // Optional
+                          @FormDataParam( UPLOAD_ANALYSIS ) InputStream uploadAnalysis,
+                          @FormDataParam( UPLOAD_ANALYSIS ) FormDataContentDisposition schemaFileInfo,
+                          @FormDataParam( ORIG_CATALOG_NAME ) String origCatalogName, // Optional
+                          @FormDataParam( DATASOURCE_NAME ) String datasourceName, // Optional
+                          @FormDataParam( OVERWRITE_IN_REPOS ) Boolean overwrite,
+                          @FormDataParam( XMLA_ENABLED_FLAG ) Boolean xmlaEnabledFlag, @FormDataParam( PARAMETERS ) String parameters,
+                          @FormDataParam( DATASOURCE_ACL ) RepositoryFileAclDto acl )
+  ) throws ParserConfigurationException, SAXException, IOException, JDOMException {
 
     DatabaseConfiguration.init();
 
@@ -94,7 +100,7 @@ public class PentahoHelloWorldService {
       e.printStackTrace();
     }
 
-    return stringWriter.toString();;
+    return stringWriter.toString();
   }
 
   @GET

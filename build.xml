@@ -241,7 +241,7 @@
 
 
 	<!-- START: override subfloor-pkg.assemble -->
-	<target name="assemble" depends="generate-plugin-config-file, generate-plugin-spring-config-file, assemble.init, assemble.copy-libs">
+	<target name="assemble1" depends="generate-plugin-config-file, generate-plugin-spring-config-file, assemble.init, assemble.copy-libs">
 		<copy todir="${approot.stage.dir}" overwrite="true">
 
 			<!-- copy from script build output dir instead -->
@@ -352,8 +352,8 @@
 	
 	
 	<!-- START: override subfloor.javadoc -->
-	<target name="javadoc" depends="process-java-source-ant-tokens">
-		<antcall target="subfloor.javadoc">
+	<target name="javadoc1" depends="process-java-source-ant-tokens">
+		<antcall target="subfloor.javadoc1">
 			<param name="src.dir" value="${src.dir.processed}"/>
 		</antcall>
 	</target>
