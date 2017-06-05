@@ -16,7 +16,7 @@ import org.pentaho.helloworld.domain.model.factories.interfaces.IUserFactory;
 
 public class UserDTOTest {
 
-  @Test
+/*  @Test
   public void convertUserToUserDTO() {
 
     //test dependencies
@@ -35,5 +35,5 @@ public class UserDTOTest {
     Assert.assertEquals( userDTO.password, user.getPassword() );
     Assert.assertEquals( userDTO.address.streetName, user.getAddress().getStreetName() );
     Assert.assertEquals( userDTO.address.postalCode, user.getAddress().getPostalCode() );
-  }
+  }*/
 }
