@@ -1,0 +1,68 @@
+function getSources() {
+    var request = new XMLHttpRequest();
+    request.open("GET", "/pentaho/plugin/data-access/api/datasource/jdbc/connection", false);
+    request.send();
+    var xml = JSON.parse(request.responseText);
+    var items = xml.Item;
+    return items;
+}
+
+function getMondrian() {
+    var request = new XMLHttpRequest();
+    request.open("GET", "/pentaho/plugin/pentaho-vtiger-plugin/api/mondrian", false);
+    request.send();
+    var xml = request.responseXML;
+    return xml;
+}
+
+function publish() {
+	var xmlText = new XMLSerializer().serializeToString(getMondrian());
+    var data = {
+		uploadInput:'Content-Type: text/xml\r\n'+xmlText,
+		parameters:'overwrite=true;DataSource='+document.getElementById("sources").options[document.getElementById('sources').selectedIndex].text,
+		schemaFileInfo:'firstVer.xml',
+		xmlaEnabledFlag:'false'
+    };
+
+    var boundary = String(Math.random()).slice(2);
+    var boundaryMiddle = '--' + boundary + '\r\n';
+    var boundaryLast = '--' + boundary + '--\r\n'
+
+    var body = ['\r\n'];
+    for (var key in data) {
+        // добавление поля
+        body.push('Content-Disposition: form-data; name="' + key + '"\r\n\r\n' + data[key] + '\r\n');
+    }
+
+    body = body.join(boundaryMiddle) + boundaryLast;
+
+	console.log(body);
+    // Тело запроса готово, отправляем
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("PUT", "/pentaho/plugin/data-access/api/datasource/analysis/import", true);
+	xhr.withCredentials = true;
+	xhr.setRequestHeader("Authorization", "Basic " + btoa("admin" + ":" + "password"))
+    xhr.setRequestHeader('Content-Type', 'multipart/form-data; boundary=' + boundary); 
+
+    xhr.onreadystatechange = function() {
+        if (this.readyState != 4) return;
+
+        alert(this.responseText);
+    }
+    xhr.send(body);
+	
+	var gett=new XMLHttpRequest();
+	gett.open("GET", "pentaho/plugin/data-access/api/datasource/analysis/catalog/firstVer", true);
+	gett.send();
+    var resp = gett.responseText;
+	console.log(resp);	
+}
+
+function getAnalysis(){
+	var gett=new XMLHttpRequest();
+	gett.open("GET", "pentaho/plugin/data-access/api/datasource/analysis/ids", true);
+	gett.send();
+    var resp = gett.responseXML;
+	console.log(resp);	
+}
