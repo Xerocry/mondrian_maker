@@ -10,8 +10,28 @@ apply plugin: 'org.springframework.boot'
 // release tag
 project.ext.kettle_dependency_revision = '7.0.0.6-94'
 project.ext.metastore_dependency_revision = '7.0.0.6-95'
+repositories {
+    maven {
+        url 'http://nexus.pentaho.org/content/groups/omni/'
+    }
+    maven {
+        url 'http://repo.pentaho.org/artifactory/repo'
+    }
+    maven {
+        url 'http://repository.pentaho.org/artifactory/repo/pentaho/pentaho-platform-core/5.0.1-stable'
+    }
+    ivy {
+        url "http://repo.pentaho.org/artifactory/repo/"
+        layout  "pattern", {
+            ivy "[organisation]/[module]/[revision]/[module]-[revision].ivy.xml"
+            artifact "[organisation]/[module]/[revision]/[module]-[revision].jar"
+            m2compatible = true
+        }
+    }
+    mavenCentral()
+    mavenLocal()
+}
 
-ant.importBuild 'build.xml'
 buildscript{
     repositories {
         maven {
@@ -59,8 +79,13 @@ dependencies {
     compile("org.eclipse.swt:swt-linux-x86_64:4.3.2")
     compile group: 'org.springframework', name: 'spring-beans', version: '4.3.8.RELEASE'
     compile 'pentaho:pentaho-bi-platform-engine-core:4.8.0-stable'
+    compile 'pentaho:data-access-plugin:7.0.0.5-84'
     compile 'pentaho:pentaho-bi-platform-engine-services:4.8.0-stable'
     compile group: 'javax.ws.rs', name: 'javax.ws.rs-api', version: '2.0'
+
+    // https://mvnrepository.com/artifact/com.sun.jersey.contribs/jersey-multipart
+    compile group: 'com.sun.jersey.contribs', name: 'jersey-multipart', version: '1.19.4'
+
 
     compile("org.springframework.boot:spring-boot-starter-web")
     testCompile('org.springframework.boot:spring-boot-starter-test')
