@@ -18,63 +18,58 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.StringWriter;
 
-@Path( "@plugin.java.rest.path.root@" )
+@Path("@plugin.java.rest.path.root@")
 public class PentahoMondrianService {
 
-  @Autowired
-  public PentahoMondrianService() {
-  }
-
-  @GET
-  @Path( "/hello" )
-  @Produces( MediaType.APPLICATION_JSON )
-  public StringOperationResultDTO hello() {
-
-    //create result DTO
-    StringOperationResultDTO result = new StringOperationResultDTO();
-
-    //fill string
-    result.string = "Hello World from Pentaho Service!";
-
-    //fill status message
-    result.statusMessage.code = "OK_CODE";
-    result.statusMessage.message = "OK_MESSAGE";
-
-    //return result DTO
-    return result;
-  }
-
-  @GET
-  @Path( "/mondrian" )
-  @Produces(MediaType.APPLICATION_XML)
-  public String mondrian( ) throws ParserConfigurationException, SAXException, IOException, JDOMException {
-
-    DatabaseConfiguration.init();
-
-
-    Schema schema = DatabaseConfiguration.getSchema();
-
-    StringWriter stringWriter = new StringWriter();
-    try {
-      JAXBContext jaxbContext = JAXBContext.newInstance(Schema.class);
-      Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-
-      // output pretty printed
-      jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
-      jaxbMarshaller.marshal(schema, System.out);
-      jaxbMarshaller.marshal(schema, stringWriter);
-//            if (scheme.size() == 0) {
-//                throw new Exception("Dump has 0 modules");
-//            }
-//            for (String s : DatabaseConfiguration.getInstance()) {
-//                outFilePrintWriter.println(s);
-//            }
-
-    } catch (JAXBException e) {
-      e.printStackTrace();
+    @Autowired
+    public PentahoMondrianService() {
     }
 
-    return stringWriter.toString();
-  }
+    @GET
+    @Path("/hello")
+    @Produces(MediaType.APPLICATION_JSON)
+    public StringOperationResultDTO hello() {
+
+        //create result DTO
+        StringOperationResultDTO result = new StringOperationResultDTO();
+
+        //fill string
+        result.string = "Hello World from Pentaho Service!";
+
+        //fill status message
+        result.statusMessage.code = "OK_CODE";
+        result.statusMessage.message = "OK_MESSAGE";
+
+        //return result DTO
+        return result;
+    }
+
+    @GET
+    @Path("/mondrian")
+    @Produces(MediaType.APPLICATION_XML)
+    public String mondrian() throws ParserConfigurationException, SAXException, IOException, JDOMException {
+
+        DatabaseConfiguration.init();
+
+        Schema schema = DatabaseConfiguration.getSchema();
+
+        StringWriter stringWriter = new StringWriter();
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(Schema.class);
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+            // output pretty printed
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+            jaxbMarshaller.marshal(schema, System.out);
+            jaxbMarshaller.marshal(schema, stringWriter);
+            if (schema.getCubes().size() == 0) {
+                throw new Exception("Dump has 0 modules");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return stringWriter.toString();
+    }
 }

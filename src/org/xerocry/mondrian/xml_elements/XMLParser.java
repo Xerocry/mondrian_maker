@@ -36,17 +36,15 @@ public class XMLParser {
 
     private static final String CRM_TABLE_FIELD = "vtiger_crmentity";
 
-    private String testDescriptor;
     private VTigerXML vTigerxML = new VTigerXML();
 
     public XMLParser() {}
 
-    public Schema readXML() throws JDOMException, IOException, ParserConfigurationException, SAXException {
-        URL u = new URL("http://localhost:8889/files");
+    public VTigerXML readXML(String url) throws JDOMException, IOException, ParserConfigurationException, SAXException {
+        URL u = new URL(url);
         URLConnection uc = u.openConnection();
         HttpURLConnection connection = (HttpURLConnection) uc;
         SAXBuilder builder = new SAXBuilder();
-//        Document document = builder.build(new File(testDescriptor));
         InputStream in = connection.getInputStream();
         Document document = builder.build(in);
         in.close();
@@ -59,7 +57,7 @@ public class XMLParser {
 
         parseXML(configuration);
 
-        return vTigerxML.generateSchema();
+        return vTigerxML;
     }
 
     private void parseXML(Element configuration) {
