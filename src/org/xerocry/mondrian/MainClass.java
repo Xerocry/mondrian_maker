@@ -16,7 +16,7 @@ public class MainClass {
     private MainClass(String[] args) throws IOException, JDOMException, ParserConfigurationException, SAXException {
         Arguments arguments = new Arguments(args);
         Directories.init(arguments);
-        DatabaseConfiguration.init("localhost:8889/files");
+        DatabaseConfiguration.init("http://localhost:8889/files");
     }
 
     private void run() throws IOException{
