@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,8 @@ import java.util.List;
 @Setter
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Hierarchy {
+    @XmlJavaTypeAdapter(TableAdapter.class)
+    private String table;
     @XmlElement(name = "Level", type = Level.class)
     private List<Level> levels = new ArrayList<>();
     @XmlTransient
@@ -23,6 +26,7 @@ public class Hierarchy {
     private boolean visible=true;
     @XmlAttribute
     private boolean hasAll=true;
+
 
 
     public Hierarchy() {

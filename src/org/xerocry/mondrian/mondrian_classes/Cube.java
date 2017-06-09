@@ -32,8 +32,10 @@ public class Cube {
     public Cube generate(ModuleXML module) {
         for (FieldXML fieldXML : module.getFieldXMLList()) {
             Dimension dimensionGen = new Dimension(fieldXML.getFieldName());
-            dimensionGen = dimensionGen.generate(fieldXML);
-            dimensionGen.setForeignKey(fieldXML.getColumnName());
+            dimensionGen = dimensionGen.generate(fieldXML, table);
+            if(!fieldXML.getTableName().equals(table)){
+                dimensionGen.setForeignKey(fieldXML.getColumnName());
+            } else dimensionGen.setForeignKey(null);
             dimension.add(dimensionGen);
         }
         return this;
