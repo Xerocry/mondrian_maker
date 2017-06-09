@@ -5,9 +5,6 @@ import org.xerocry.mondrian.mondrian_classes.Cube;
 
 import java.util.ArrayList;
 
-/**
- * Created by raskia on 5/8/2017.
- */
 public class VTigerXML {
 
     private final String DATE_TYPE = "date";
@@ -18,7 +15,6 @@ public class VTigerXML {
     public Schema generateSchema() {
         Schema schema = new Schema();
 
-//        schema.getCubes().putAll(generateEmptyCubes());
 
         for (ModuleXML module : xmlModules) {
             Cube cube = new Cube(module.getModuleName());
@@ -30,17 +26,8 @@ public class VTigerXML {
         return schema;
     }
 
-    public void addModule(ModuleXML moduleXML) {
+    void addModule(ModuleXML moduleXML) {
         xmlModules.add(moduleXML);
     }
 
-//    private HashMap<String, Cube> generateEmptyCubes() {
-//        HashMap<String, Cube> cubes = new HashMap<>();
-//        for (ModuleXML module : xmlModules) {
-//            Cube cube = new Cube(module.getModuleName());
-//            cube.setTable(module.getTable());
-//            cubes.put(module.getModuleName(), cube);
-//        }
-//        return cubes;
-//    }
 }
