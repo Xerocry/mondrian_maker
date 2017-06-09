@@ -9,10 +9,10 @@
 
   <context:annotation-config />
   <bean id="@jax-rs.bean.name@" class="org.pentaho.platform.web.servlet.JAXRSPluginServlet"/>
-  <bean id="@plugin.id@" class="org.pentaho.helloworld.endpoints.PentahoMondrianContentGenerator" scope="prototype"/>
+  <bean id="@plugin.id@" class="org.xerocry.mondrian.endpoints.PentahoMondrianContentGenerator" scope="prototype"/>
 
   <!-- START: Service Endpoints -->
-  <bean id="@plugin.id@.service-endpoint" class="org.pentaho.helloworld.endpoints.PentahoMondrianervice">
+  <bean id="@plugin.id@.service-endpoint" class="org.xerocry.mondrian.endpoints.PentahoMondrianService">
   </bean>
   <!-- END: Service Endpoints -->
 </beans>

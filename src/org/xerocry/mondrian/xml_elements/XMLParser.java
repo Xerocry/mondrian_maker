@@ -1,5 +1,6 @@
 package org.xerocry.mondrian.xml_elements;
 
+import org.xerocry.mondrian.DatabaseConfiguration;
 import org.xerocry.mondrian.Schema;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -14,8 +15,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class XMLParser {
+
+    private static Logger log = Logger.getLogger(DatabaseConfiguration.class.getName());
 
     private static final String ROOT_CONFIGURATION_ELEMENT = "configurations";
     private static final String ROOT_MODULE_ELEMENT = "modules";
@@ -42,10 +46,12 @@ public class XMLParser {
 
     public VTigerXML readXML(String url) throws JDOMException, IOException, ParserConfigurationException, SAXException {
         URL u = new URL(url);
+        log.info("Trying to connect to url " + url);
         URLConnection uc = u.openConnection();
         HttpURLConnection connection = (HttpURLConnection) uc;
         SAXBuilder builder = new SAXBuilder();
         InputStream in = connection.getInputStream();
+        log.info("Input stream get try : " + in.available());
         Document document = builder.build(in);
         in.close();
         connection.disconnect();

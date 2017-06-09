@@ -4,7 +4,6 @@ import org.jdom2.JDOMException;
 import org.xerocry.mondrian.DatabaseConfiguration;
 import org.xerocry.mondrian.Schema;
 import org.xerocry.mondrian.endpoints.dtos.responses.StringOperationResultDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.xml.sax.SAXException;
 
 import javax.ws.rs.GET;
@@ -12,7 +11,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
@@ -20,10 +18,7 @@ import java.io.StringWriter;
 
 @Path("@plugin.java.rest.path.root@")
 public class PentahoMondrianService {
-
-    @Autowired
-    public PentahoMondrianService() {
-    }
+    public PentahoMondrianService() { }
 
     @GET
     @Path("/hello")
@@ -49,7 +44,7 @@ public class PentahoMondrianService {
     @Produces(MediaType.APPLICATION_XML)
     public String mondrian() throws ParserConfigurationException, SAXException, IOException, JDOMException {
 
-        DatabaseConfiguration.init();
+        DatabaseConfiguration.init("http://localhost:8889/files");
 
         Schema schema = DatabaseConfiguration.getSchema();
 
