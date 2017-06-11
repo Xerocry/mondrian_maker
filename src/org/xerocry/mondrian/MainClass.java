@@ -28,6 +28,7 @@ public class MainClass {
 
             // output pretty printed
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            jaxbMarshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
 
             jaxbMarshaller.marshal(DatabaseConfiguration.getSchema(), outFilePrintWriter);
             jaxbMarshaller.marshal(DatabaseConfiguration.getSchema(), System.out);
