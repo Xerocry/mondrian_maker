@@ -16,9 +16,8 @@ import java.util.List;
 public class Dimension {
     @XmlAttribute(name = "name")
     private String name;
-    @XmlAttribute
-    private String foreignKey;
-
+//    @XmlAttribute
+//    private String foreignKey;
     @XmlAttribute
     private String type="StandardDimension";
     @XmlElement(name = "Hierarchy", type = Hierarchy.class)
@@ -33,7 +32,7 @@ public class Dimension {
 
     }
 
-    public Dimension generate(FieldXML field, String cubeFactTable) {
+    public Dimension generate(FieldXML field) {
         this.name = field.getFieldName();
         Hierarchy hierarchy = new Hierarchy();
         hierarchy.setName(field.getFieldName());
@@ -44,10 +43,8 @@ public class Dimension {
         level.setType(field.getColumnType());
         hierarchy.addLevel(level);
         if (field.getTableName().equals("vtiger_crmentity")) {
-            hierarchy.setTable("vtiger_crmentity");
-        } else if(field.getTableName().equals(cubeFactTable)){
-            hierarchy.setTable(null);
-        } else hierarchy.setTable(field.getTableName());
+            field.setTableName("vtiger_crmentity");
+        } else field.setTableName(field.getTableName());
         this.hierarchy.add(hierarchy);
 
         return this;
