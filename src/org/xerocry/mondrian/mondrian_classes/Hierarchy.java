@@ -28,7 +28,6 @@ public class Hierarchy {
     private boolean hasAll=true;
 
 
-
     public Hierarchy() {
         this.levels = new ArrayList<>();
     }
