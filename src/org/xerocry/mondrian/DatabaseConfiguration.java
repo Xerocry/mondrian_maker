@@ -19,7 +19,7 @@ public class DatabaseConfiguration{
         if (instance == null) {
             instance = new DatabaseConfiguration(url);
             log.info("url = " + url + " in Config");
-            VTigerXML vTigerXML = new XMLParser().readXML(vtigerSource);
+            VTigerXML vTigerXML = new XMLParser(vtigerSource).readXML();
             schema = vTigerXML.generateSchema();
         }
     }
