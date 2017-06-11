@@ -9,6 +9,7 @@ import org.xml.sax.SAXException;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -42,9 +43,13 @@ public class PentahoMondrianService {
     @GET
     @Path("/mondrian")
     @Produces(MediaType.APPLICATION_XML)
-    public String mondrian() throws ParserConfigurationException, SAXException, IOException, JDOMException {
+    public String mondrian(@QueryParam("host") String host,
+                           @QueryParam("user") String user,
+                           @QueryParam("pass") String pass)
+            throws ParserConfigurationException, SAXException, IOException, JDOMException {
 
-        DatabaseConfiguration.init("http://localhost:8889/files");
+        String url = "http://" + host.trim() + "?" + user.trim() + "?" + pass.trim();
+        DatabaseConfiguration.init(url);
 
         Schema schema = DatabaseConfiguration.getSchema();
 
