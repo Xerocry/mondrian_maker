@@ -1,5 +1,6 @@
 package org.xerocry.mondrian.xml_elements;
 
+import org.jetbrains.annotations.Nullable;
 import org.xerocry.mondrian.DatabaseConfiguration;
 import org.xerocry.mondrian.Schema;
 import org.jdom2.Document;
@@ -16,6 +17,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class XMLParser {
 
@@ -27,24 +30,32 @@ public class XMLParser {
     private static final String ROOT_FIELD_ELEMENT = "fields";
     private static final String ROOT_RELATED_MODULE_ELEMENT = "relatedmodules";
     private static final String ROOT_RELATED_LIST_ELEMENT = "relatedlists";
+    private static final String ROOT_MODSTRINGS_ELEMENT = "modstrings";
 
     private static final String CONFIGURATION_ELEMENT = "configuration";
     private static final String TABLENAME_ELEMENT = "tablename";
-    private static final String COLUMNNAME_ELEMENT = "columnname";
     private static final String FIELDNAME_ELEMENT = "fieldname";
+    private static final String TRANSLATED_ELEMENT = "translated";
+    private static final String ORIGINAL_ELEMENT = "original";
+    private static final String COLUMNNAME_ELEMENT = "columnname";
     private static final String COLUMTYPE_ELEMENT = "columntype";
     private static final String UI_TYPE_ELEMENT = "uitype";
-    private static final String RELATED_LIST_ELEMENT = "relatedlist";
     private static final String RELATED_MODULE_ELEMENT = "relatedmodule";
-    private static final String MODULE_NAME_ELEMENT = "name";
+    private static final String MODULE_NAME_ELEMENT = "label";
+    private static final String FIELD_LABEL_ELEMENT = "fieldlabel";
 
     private static final String CRM_TABLE_FIELD = "vtiger_crmentity";
+    private static final String TRANSLATION_ELEMENT = "translation";
 
     private VTigerXML vTigerxML = new VTigerXML();
 
-    public XMLParser() {}
+    private String url;
 
-    public VTigerXML readXML(String url) throws JDOMException, IOException, ParserConfigurationException, SAXException {
+    public XMLParser(String url) {
+        this.url = url;
+    }
+
+    public VTigerXML readXML() throws JDOMException, IOException, ParserConfigurationException, SAXException {
         URL u = new URL(url);
         log.info("Trying to connect to url " + url);
         URLConnection uc = u.openConnection();
@@ -74,20 +85,30 @@ public class XMLParser {
             System.out.println();
             ModuleXML moduleXML = parseModuleXML(moduleElement);
             vTigerxML.addModule(moduleXML);
-
         }
 
 }
     private ModuleXML parseModuleXML(Element module) {
         ModuleXML moduleXML = new ModuleXML();
         List<Element> childNodes = module.getChildren();
+        Element p1 = module.getParentElement();
+        Element p2 = p1.getParentElement();
+        Element p3 = p2.getChild(TRANSLATION_ELEMENT);
+        Element mainTranslations = p3.getChild(ROOT_MODSTRINGS_ELEMENT);
+
+
+        Element transNode = module.getChild(TRANSLATION_ELEMENT);
+        Element modstringsNode = transNode.getChild(ROOT_MODSTRINGS_ELEMENT);
 
         for (Element childNode : childNodes) {
             if (childNode.getName().equals(MODULE_NAME_ELEMENT)) {
+                String label;
+                if((label = findTranslation(childNode.getValue(), mainTranslations)) != null){
+                    moduleXML.setModuleName(label);
+                }
                 moduleXML.setModuleName(childNode.getValue());
                 continue;
             }
-
             if (childNode.getName().equals(ROOT_BLOCK_ELEMENT)) {
                 List<Element> blocks = childNode.getChildren();
                 for (Element block : blocks) {
@@ -110,7 +131,12 @@ public class XMLParser {
 
                         fieldXML.setColumnName(field.getChild(COLUMNNAME_ELEMENT).getValue());
                         fieldXML.setColumnType(field.getChild(COLUMTYPE_ELEMENT).getValue());
-                        fieldXML.setFieldName(field.getChild(FIELDNAME_ELEMENT).getValue());
+                        String fieldLabel;
+                        if((fieldLabel = findTranslation(field.getChild(FIELD_LABEL_ELEMENT).getValue(), modstringsNode)) != null
+                                || (fieldLabel = findTranslation(field.getChild(FIELD_LABEL_ELEMENT).getValue(), mainTranslations)) != null)
+                        {
+                            fieldXML.setFieldName(fieldLabel);
+                        } else fieldXML.setFieldName(field.getChild(FIELDNAME_ELEMENT).getValue());
                         fieldXML.setUiType(field.getChild(UI_TYPE_ELEMENT).getValue());
                         if (fieldXML.isRelated()) {
                             Element related = field.getChild(ROOT_RELATED_MODULE_ELEMENT);
@@ -122,7 +148,6 @@ public class XMLParser {
                             } catch (NullPointerException e) {
                                 fieldXML.addRelatedModule(moduleXML.getModuleName());
                             }
-
                         }
                         moduleXML.addNewField(fieldXML);
                     }
@@ -147,5 +172,17 @@ public class XMLParser {
             }
         }
         return false;
+    }
+
+    @Nullable
+    private String findTranslation(String source, Element collection) {
+        List<Element> modstrings = collection.getChildren();
+        for (Element modstring : modstrings) {
+            Element original = modstring.getChild(ORIGINAL_ELEMENT);
+            if (original.getValue().equals(source)) {
+                return modstring.getChild(TRANSLATED_ELEMENT).getValue();
+            }
+        }
+        return null;
     }
 }
