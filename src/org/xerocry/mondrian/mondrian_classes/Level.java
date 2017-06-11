@@ -20,6 +20,8 @@ public class Level {
     private String type;
     @XmlTransient
     private String levelType;
+    @XmlAttribute
+    private String caption;
 
     @XmlAttribute
     private boolean visible = true;

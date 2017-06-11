@@ -23,6 +23,8 @@ public class Hierarchy {
     @XmlAttribute
     private String name;
     @XmlAttribute
+    private String caption;
+    @XmlAttribute
     private boolean visible=true;
     @XmlAttribute
     private boolean hasAll=true;

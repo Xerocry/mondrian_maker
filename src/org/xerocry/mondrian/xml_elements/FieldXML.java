@@ -12,6 +12,7 @@ public class FieldXML {
     private String fieldName;
     private String columnType;
     private String tableName;
+    private String fieldCaption;
     private String uiType;
     private ArrayList<String> relatedModules = new ArrayList<>();
 

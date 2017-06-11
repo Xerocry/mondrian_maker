@@ -104,8 +104,8 @@ public class XMLParser {
             if (childNode.getName().equals(MODULE_NAME_ELEMENT)) {
                 String label;
                 if((label = findTranslation(childNode.getValue(), mainTranslations)) != null){
-                    moduleXML.setModuleName(label);
-                }
+                    moduleXML.setModuleCaption(label);
+                } else moduleXML.setModuleCaption(childNode.getValue());
                 moduleXML.setModuleName(childNode.getValue());
                 continue;
             }
@@ -135,8 +135,9 @@ public class XMLParser {
                         if((fieldLabel = findTranslation(field.getChild(FIELD_LABEL_ELEMENT).getValue(), modstringsNode)) != null
                                 || (fieldLabel = findTranslation(field.getChild(FIELD_LABEL_ELEMENT).getValue(), mainTranslations)) != null)
                         {
-                            fieldXML.setFieldName(fieldLabel);
-                        } else fieldXML.setFieldName(field.getChild(FIELDNAME_ELEMENT).getValue());
+                            fieldXML.setFieldCaption(fieldLabel);
+                        } else fieldXML.setFieldCaption(field.getChild(FIELDNAME_ELEMENT).getValue());
+                        fieldXML.setFieldName(field.getChild(FIELDNAME_ELEMENT).getValue());
                         fieldXML.setUiType(field.getChild(UI_TYPE_ELEMENT).getValue());
                         if (fieldXML.isRelated()) {
                             Element related = field.getChild(ROOT_RELATED_MODULE_ELEMENT);

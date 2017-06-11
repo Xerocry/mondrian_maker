@@ -9,6 +9,7 @@ import java.util.ArrayList;
 @Setter
 public class ModuleXML {
     private String moduleName;
+    private String moduleCaption;
     private Integer sequenceNum;
     private ArrayList<FieldXML> fieldXMLList;
 
