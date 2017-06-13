@@ -5,7 +5,7 @@ import org.xerocry.mondrian.MainClass;
 
 import java.io.IOException;
 
-public class UserDTOTest {
+public class EndpointTest {
     String outputLocation;
 
     @Before
