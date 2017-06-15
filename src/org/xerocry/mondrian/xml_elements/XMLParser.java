@@ -1,8 +1,6 @@
 package org.xerocry.mondrian.xml_elements;
 
-import org.jetbrains.annotations.Nullable;
 import org.xerocry.mondrian.DatabaseConfiguration;
-import org.xerocry.mondrian.Schema;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -15,10 +13,9 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class XMLParser {
 
@@ -31,11 +28,14 @@ public class XMLParser {
     private static final String ROOT_RELATED_MODULE_ELEMENT = "relatedmodules";
     private static final String ROOT_RELATED_LIST_ELEMENT = "relatedlists";
     private static final String ROOT_MODSTRINGS_ELEMENT = "modstrings";
+    private static final String DESCRIPTION_ELEMENT = "description";
+
+
 
     private static final String CONFIGURATION_ELEMENT = "configuration";
     private static final String TABLENAME_ELEMENT = "tablename";
     private static final String FIELDNAME_ELEMENT = "fieldname";
-    private static final String TRANSLATED_ELEMENT = "translated";
+    private static final String TRANSLATED_ELEMENT = "original";
     private static final String ORIGINAL_ELEMENT = "original";
     private static final String COLUMNNAME_ELEMENT = "columnname";
     private static final String COLUMTYPE_ELEMENT = "columntype";
@@ -43,6 +43,8 @@ public class XMLParser {
     private static final String RELATED_MODULE_ELEMENT = "relatedmodule";
     private static final String MODULE_NAME_ELEMENT = "label";
     private static final String FIELD_LABEL_ELEMENT = "fieldlabel";
+    private static final String ROOT_ENTITY_ID_ELEMENT = "entityidentifier";
+    private static final String ENTITY_ID_ELEMENT = "entityidcolumn";
 
     private static final String CRM_TABLE_FIELD = "vtiger_crmentity";
     private static final String TRANSLATION_ELEMENT = "translation";
@@ -72,6 +74,14 @@ public class XMLParser {
         Element configuration = rootConfiguration.getChild(CONFIGURATION_ELEMENT);
         assert configuration != null;
 
+        Element description = configuration.getChild(DESCRIPTION_ELEMENT);
+        String[] tmp = description.getValue().split(";");
+        HashMap<String, String> sourceInfo = new HashMap<>();
+        for (String var : tmp) {
+            String[] keyVal = var.split("=");
+            sourceInfo.put(keyVal[0].trim(), keyVal[1].trim());
+        }
+        vTigerxML.getSourceInfo().putAll(sourceInfo);
         parseXML(configuration);
 
         return vTigerxML;
@@ -129,6 +139,15 @@ public class XMLParser {
                             fieldXML.setCrmEntity(true);
                         }
 
+                        if (field.getChild(ROOT_ENTITY_ID_ELEMENT) != null) {
+                            fieldXML.setPrimaryKey(field.getChild(ROOT_ENTITY_ID_ELEMENT)
+                                    .getChild(ENTITY_ID_ELEMENT).getValue());
+                            if (fieldXML.getTableName().equals(moduleXML.getFactTable())) {
+                                moduleXML.setKey(field.getChild(ROOT_ENTITY_ID_ELEMENT)
+                                        .getChild(ENTITY_ID_ELEMENT).getValue());
+                            }
+                        }
+
                         fieldXML.setColumnName(field.getChild(COLUMNNAME_ELEMENT).getValue());
                         fieldXML.setColumnType(field.getChild(COLUMTYPE_ELEMENT).getValue());
                         String fieldLabel;
@@ -158,7 +177,9 @@ public class XMLParser {
             if (childNode.getName().equals(ROOT_RELATED_LIST_ELEMENT)) {
                 List<Element> relList = childNode.getChildren();
                 for (Element relElement : relList) {
-                    moduleXML.addRelatedModule(relElement.getChild(RELATED_MODULE_ELEMENT).getValue());
+                    if(!relElement.getChild(RELATED_MODULE_ELEMENT).getValue().equals("")) {
+                        moduleXML.addRelatedModule(relElement.getChild(RELATED_MODULE_ELEMENT).getValue());
+                    }
                 }
             }
         }
@@ -175,7 +196,6 @@ public class XMLParser {
         return false;
     }
 
-    @Nullable
     private String findTranslation(String source, Element collection) {
         List<Element> modstrings = collection.getChildren();
         for (Element modstring : modstrings) {

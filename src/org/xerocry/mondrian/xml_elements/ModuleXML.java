@@ -11,6 +11,7 @@ public class ModuleXML {
     private String moduleName;
     private String moduleCaption;
     private Integer sequenceNum;
+    private String key;
     private ArrayList<FieldXML> fieldXMLList;
 
     private boolean crmEntity;
