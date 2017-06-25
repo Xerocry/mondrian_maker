@@ -16,10 +16,15 @@ import javax.xml.bind.Marshaller;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.logging.Logger;
 
 @Path("@plugin.java.rest.path.root@")
 public class PentahoMondrianService {
+
+    private static Logger log = Logger.getLogger(PentahoMondrianService.class.getName());
+
     public PentahoMondrianService() { }
+
 
     @GET
     @Path("/hello")
@@ -41,6 +46,25 @@ public class PentahoMondrianService {
     }
 
     @GET
+    @Path("/addSource")
+    @Produces(MediaType.APPLICATION_JSON)
+    public StringOperationResultDTO addSource(@QueryParam("host") String host)
+            throws JDOMException, ParserConfigurationException, SAXException, IOException {
+
+        String url = "http://" + host.trim();
+        DatabaseConfiguration.init(url);
+
+        StringOperationResultDTO result = new StringOperationResultDTO();
+
+        result.string = "Hello World from Pentaho Service!";
+
+        result.statusMessage.code = "OK_CODE";
+        result.statusMessage.message = "OK_MESSAGE";
+
+        return result;
+    }
+
+    @GET
     @Path("/mondrian")
     @Produces(MediaType.APPLICATION_XML)
     public String mondrian(@QueryParam("host") String host,
@@ -48,7 +72,8 @@ public class PentahoMondrianService {
                            @QueryParam("pass") String pass)
             throws ParserConfigurationException, SAXException, IOException, JDOMException {
 
-        String url = "http://" + host.trim() + "?" + user.trim() + "?" + pass.trim();
+        String url = "http://" + host.trim();
+//        String url = "http://" + host.trim() + "?" + user.trim() + "?" + pass.trim();
         DatabaseConfiguration.init(url);
 
         Schema schema = DatabaseConfiguration.getSchema();

@@ -1,0 +1,26 @@
+{
+  "changed": true,
+  "usingConnectionPool": true,
+  "connectSql": "",
+  "databaseName": "SampleData",
+  "databasePort": "9001",
+  "hostname": "localhost",
+  "name": "TestDataSourceResource",
+  "password": "password",
+  "username": "pentaho_user",
+  "attributes": {},
+  "connectionPoolingProperties": {},
+  "extraOptions": {},
+  "accessType": "NATIVE",
+  "databaseType": {
+    "defaultDatabasePort": 9001,
+    "extraOptionsHelpUrl": "http://hsqldb.sourceforge.net/doc/guide/ch04.html#N109DA",
+    "name": "Hypersonic",
+    "shortName": "HYPERSONIC",
+    "supportedAccessTypes": [
+      "NATIVE",
+      "ODBC",
+      "JNDI"
+    ]
+  }
+}

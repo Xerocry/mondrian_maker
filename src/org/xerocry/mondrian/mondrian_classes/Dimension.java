@@ -15,8 +15,6 @@ import java.util.List;
 public class Dimension {
     @XmlAttribute(name = "name")
     private String name;
-//    @XmlAttribute
-//    private String foreignKey;
     @XmlAttribute
     private String caption;
     @XmlAttribute
@@ -25,17 +23,22 @@ public class Dimension {
     private List<Hierarchy> hierarchy = new ArrayList<>();
 
 
-    public Dimension(String name) {
+    public Dimension(String name, String caption) {
         this.name = name;
+        this.caption = caption;
     }
 
     public Dimension() {
+    }
 
+    public Dimension(Dimension other) {
+        this.name = other.name;
+        this.caption = other.caption;
+        this.type = other.type;
+        this.hierarchy = other.hierarchy;
     }
 
     public Dimension generate(FieldXML field) {
-        this.name = field.getFieldName();
-        this.caption = field.getFieldCaption();
         Hierarchy hierarchy = new Hierarchy();
         hierarchy.setName(field.getFieldName());
 
@@ -49,10 +52,13 @@ public class Dimension {
             hierarchy.setTable("vtiger_crmentity");
         } else hierarchy.setTable(field.getTableName());
         hierarchy.setCaption(field.getFieldCaption());
+        hierarchy.setPrimaryKey(field.getPrimaryKey());
         this.hierarchy.add(hierarchy);
 
         return this;
     }
+
+
 
 
 }

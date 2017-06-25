@@ -1,15 +1,13 @@
 package org.xerocry.mondrian.mondrian_classes;
 
 
+import org.xerocry.mondrian.Schema;
 import org.xerocry.mondrian.xml_elements.FieldXML;
 import org.xerocry.mondrian.xml_elements.ModuleXML;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,30 +19,50 @@ public class Cube {
     @XmlAttribute
     private String name;
     @XmlAttribute
-    private String defaultMeasure;
+    private String source;
     @XmlAttribute
     private String caption;
+    @XmlTransient
+    private String foreignKey;
     @XmlJavaTypeAdapter(TableAdapter.class)
     private String table;
-    @XmlElement(name = "Dimension", type = Dimension.class)
-    private List<Dimension> dimension;
+    @XmlElement(name = "DimensionUsage", type = DimensionUsage.class)
+    private List<DimensionUsage> dimensionUsages;
+    @XmlElement(name = "Measure", type = Measure.class)
+    private List<Measure> measures;
+    @XmlTransient
+    private List<String> related = new ArrayList<>();
+    @XmlTransient
+    private List<Dimension> dimensions;
 
-    public Cube generate(ModuleXML module) {
-        for (FieldXML fieldXML : module.getFieldXMLList()) {
-            Dimension dimensionGen = new Dimension(fieldXML.getFieldName());
-            dimensionGen = dimensionGen.generate(fieldXML);
-//            dimensionGen.setForeignKey(fieldXML.getColumnName());
-            dimension.add(dimensionGen);
+
+    public Cube generate() {
+        for (Dimension dimension : dimensions) {
+            DimensionUsage dimensionGen = new DimensionUsage();
+            dimensionGen = dimensionGen.generate(dimension);
+            dimensionGen.setForeignKey(foreignKey);
+            dimensionUsages.add(dimensionGen);
         }
         return this;
     }
 
     public Cube(String name) {
-        dimension = new ArrayList<>();
+        dimensions = new ArrayList<>();
+        dimensionUsages = new ArrayList<>();
+        measures = new ArrayList<>();
         this.name = name;
     }
 
     public Cube() {
-        dimension = new ArrayList<>();
+        dimensionUsages = new ArrayList<>();
+        dimensions = new ArrayList<>();
+    }
+
+    public void addDimension(Dimension dimension) {
+        dimensions.add(dimension);
+    }
+
+    public void addMeasure(Measure measure) {
+        measures.add(measure);
     }
 }

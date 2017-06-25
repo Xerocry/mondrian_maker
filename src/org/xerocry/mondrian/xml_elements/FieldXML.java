@@ -14,6 +14,7 @@ public class FieldXML {
     private String tableName;
     private String fieldCaption;
     private String uiType;
+    private String primaryKey;
     private ArrayList<String> relatedModules = new ArrayList<>();
 
     private static final String REL_MODULE_TYPE = "10";
