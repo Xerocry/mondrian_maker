@@ -9,10 +9,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URL;
-import java.net.URLConnection;
+import java.net.*;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -79,8 +76,9 @@ public class DatabaseConfiguration {
                 "[\"NATIVE\", \"ODBC\", \"JNDI\"] } }";
 
         try {
-            String domainname = System.getenv("USERDOMAIN");
-            URL url = new URL("http://" + domainname +
+            InetAddress ip;
+            ip = InetAddress.getLocalHost();
+            URL url = new URL("http://" + ip.getHostAddress() +
                     "/pentaho/plugin/data-access/api/datasource/jdbc/connection/TestDatasource");
             HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
             httpCon.setDoOutput(true);

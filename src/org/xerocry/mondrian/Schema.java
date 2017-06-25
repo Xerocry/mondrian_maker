@@ -52,6 +52,9 @@ public class Schema{
         this.name = name;
     }
 
+    /**
+     * Конструктор для JAXB
+     */
     public Schema() {
     }
 

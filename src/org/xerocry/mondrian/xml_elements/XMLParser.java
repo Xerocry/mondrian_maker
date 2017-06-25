@@ -30,8 +30,6 @@ public class XMLParser {
     private static final String ROOT_MODSTRINGS_ELEMENT = "modstrings";
     private static final String DESCRIPTION_ELEMENT = "description";
 
-
-
     private static final String CONFIGURATION_ELEMENT = "configuration";
     private static final String TABLENAME_ELEMENT = "tablename";
     private static final String FIELDNAME_ELEMENT = "fieldname";
@@ -57,6 +55,15 @@ public class XMLParser {
         this.url = url;
     }
 
+    /**
+     * Метод для получения конфигурации через HTTP запрос и формирования схемы
+     *
+     * @return Считанная в Java-объекты конфигурация
+     * @throws JDOMException
+     * @throws IOException
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     */
     public VTigerXML readXML() throws JDOMException, IOException, ParserConfigurationException, SAXException {
         URL u = new URL(url);
         log.info("Trying to connect to url " + url);
@@ -97,7 +104,14 @@ public class XMLParser {
             vTigerxML.addModule(moduleXML);
         }
 
-}
+    }
+
+    /**
+     * Метод разбора каждого модуля
+     *
+     * @param module
+     * @return
+     */
     private ModuleXML parseModuleXML(Element module) {
         ModuleXML moduleXML = new ModuleXML();
         List<Element> childNodes = module.getChildren();
@@ -106,14 +120,19 @@ public class XMLParser {
         Element p3 = p2.getChild(TRANSLATION_ELEMENT);
         Element mainTranslations = p3.getChild(ROOT_MODSTRINGS_ELEMENT);
 
-
+        /*
+        Получение названий для элементов
+         */
         Element transNode = module.getChild(TRANSLATION_ELEMENT);
         Element modstringsNode = transNode.getChild(ROOT_MODSTRINGS_ELEMENT);
 
+        /*
+        Итерация по элементам конфигурации
+         */
         for (Element childNode : childNodes) {
             if (childNode.getName().equals(MODULE_NAME_ELEMENT)) {
                 String label;
-                if((label = findTranslation(childNode.getValue(), mainTranslations)) != null){
+                if ((label = findTranslation(childNode.getValue(), mainTranslations)) != null) {
                     moduleXML.setModuleCaption(label);
                 } else moduleXML.setModuleCaption(childNode.getValue());
                 moduleXML.setModuleName(childNode.getValue());
@@ -128,6 +147,9 @@ public class XMLParser {
                     Element fieldsElement = block.getChild(ROOT_FIELD_ELEMENT);
                     List<Element> fieldElements = fieldsElement.getChildren();
 
+                    /*
+                    Каждое поле - отдельное измерение.
+                     */
                     for (Element field : fieldElements) {
                         FieldXML fieldXML = new FieldXML();
 
@@ -151,13 +173,15 @@ public class XMLParser {
                         fieldXML.setColumnName(field.getChild(COLUMNNAME_ELEMENT).getValue());
                         fieldXML.setColumnType(field.getChild(COLUMTYPE_ELEMENT).getValue());
                         String fieldLabel;
-                        if((fieldLabel = findTranslation(field.getChild(FIELD_LABEL_ELEMENT).getValue(), modstringsNode)) != null
-                                || (fieldLabel = findTranslation(field.getChild(FIELD_LABEL_ELEMENT).getValue(), mainTranslations)) != null)
-                        {
+                        if ((fieldLabel = findTranslation(field.getChild(FIELD_LABEL_ELEMENT).getValue(), modstringsNode)) != null
+                                || (fieldLabel = findTranslation(field.getChild(FIELD_LABEL_ELEMENT).getValue(), mainTranslations)) != null) {
                             fieldXML.setFieldCaption(fieldLabel);
                         } else fieldXML.setFieldCaption(field.getChild(FIELDNAME_ELEMENT).getValue());
                         fieldXML.setFieldName(field.getChild(FIELDNAME_ELEMENT).getValue());
                         fieldXML.setUiType(field.getChild(UI_TYPE_ELEMENT).getValue());
+                        /*
+                        Если поле является ссылкой на таблицу - обработать отдельно.
+                         */
                         if (fieldXML.isRelated()) {
                             Element related = field.getChild(ROOT_RELATED_MODULE_ELEMENT);
                             try {
@@ -174,10 +198,13 @@ public class XMLParser {
                 }
             }
 
+            /*
+
+             */
             if (childNode.getName().equals(ROOT_RELATED_LIST_ELEMENT)) {
                 List<Element> relList = childNode.getChildren();
                 for (Element relElement : relList) {
-                    if(!relElement.getChild(RELATED_MODULE_ELEMENT).getValue().equals("")) {
+                    if (!relElement.getChild(RELATED_MODULE_ELEMENT).getValue().equals("")) {
                         moduleXML.addRelatedModule(relElement.getChild(RELATED_MODULE_ELEMENT).getValue());
                     }
                 }
@@ -186,7 +213,13 @@ public class XMLParser {
         return moduleXML;
     }
 
-
+    /**
+     * Метод проверки на наличие элементов в блоке.
+     *
+     * @param element - элемент для проверки
+     * @return True - есть поля
+     *         False - нет полей
+     */
     private boolean isContainFields(Element element) {
         for (Element child : element.getChildren()) {
             if (child.getName().equals(ROOT_FIELD_ELEMENT)) {
@@ -196,6 +229,13 @@ public class XMLParser {
         return false;
     }
 
+    /**
+     * Меьтод поиска перевода имени для определённого элемента
+     *
+     * @param source - элемент
+     * @param collection - набор переводов
+     * @return русский перевод элемента
+     */
     private String findTranslation(String source, Element collection) {
         List<Element> modstrings = collection.getChildren();
         for (Element modstring : modstrings) {

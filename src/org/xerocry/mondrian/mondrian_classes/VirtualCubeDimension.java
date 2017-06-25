@@ -18,6 +18,9 @@ public class VirtualCubeDimension {
     @XmlAttribute(name = "cubeName")
     private String cubeName;
 
+    /**
+     * Конструктор для JAXB
+     */
     public VirtualCubeDimension() {
     }
 

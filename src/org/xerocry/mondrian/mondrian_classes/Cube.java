@@ -28,10 +28,13 @@ public class Cube {
     private String table;
     @XmlElement(name = "DimensionUsage", type = DimensionUsage.class)
     private List<DimensionUsage> dimensionUsages;
+    @XmlElement(name = "Measure", type = Measure.class)
+    private List<Measure> measures;
     @XmlTransient
     private List<String> related = new ArrayList<>();
     @XmlTransient
     private List<Dimension> dimensions;
+
 
     public Cube generate() {
         for (Dimension dimension : dimensions) {
@@ -46,6 +49,7 @@ public class Cube {
     public Cube(String name) {
         dimensions = new ArrayList<>();
         dimensionUsages = new ArrayList<>();
+        measures = new ArrayList<>();
         this.name = name;
     }
 
@@ -56,5 +60,9 @@ public class Cube {
 
     public void addDimension(Dimension dimension) {
         dimensions.add(dimension);
+    }
+
+    public void addMeasure(Measure measure) {
+        measures.add(measure);
     }
 }

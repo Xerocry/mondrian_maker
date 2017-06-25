@@ -16,20 +16,29 @@ import java.util.List;
 public class VirtualCube {
     @XmlElement(name = "VirtualCubeDimension", type = VirtualCubeDimension.class)
     private List<VirtualCubeDimension> dimensionUsages;
+    @XmlElement(name = "VirtualCubeMeasure", type = VirtualCubeMeasure.class)
+    private List<VirtualCubeMeasure> virMeasures;
 
     @XmlAttribute
     private String name;
 
+    /**
+     * Конструктор для JAXB
+     */
     public VirtualCube() {
         dimensionUsages = new ArrayList<>();
+        virMeasures = new ArrayList<>();
     }
 
     public void addVirtualDimension(VirtualCubeDimension dimension) {
         dimensionUsages.add(dimension);
     }
 
-    public String generateName() {
-        VirtualCubeDimension dim = dimensionUsages.get(1);
-        return dim.getCaption() + "Virtual";
+    public void addVirtualMeasure(VirtualCubeMeasure measure) {
+        virMeasures.add(measure);
+    }
+
+    public String generateName(String cubeName) {
+        return cubeName + "Virtual";
     }
 }
